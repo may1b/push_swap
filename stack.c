@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:58:26 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/06 11:45:06 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/06 11:46:55 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,31 @@ bool rb(t_stack *stack_b)
 }
 
 bool rr(t_stack *stack_a, t_stack *stack_b)
+{
+	if (stack_a->top < 1 || stack_a->top < 1)
+		return (false);
+	ra(stack_a);
+	ra(stack_a);
+	return (true);
+}
+
+bool rra(t_stack *stack_a)
+{
+	if (!shift(stack_a, true))
+		return (false);
+	write(OUTPUT, "ra\n", 3);
+	return (true);
+}
+
+bool rrb(t_stack *stack_b)
+{
+	if (!shift(stack_b, true))
+		return (false);
+	write(OUTPUT, "rb\n", 3);
+	return (true);
+}
+
+bool rrr(t_stack *stack_a, t_stack *stack_b)
 {
 	if (stack_a->top < 1 || stack_a->top < 1)
 		return (false);
