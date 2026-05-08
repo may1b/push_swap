@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:25:10 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/06 10:57:12 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/06 11:53:41 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,40 @@ typedef struct s_stack {
     int arr[MAX_SIZE];  
 	int top;        
 } t_stack;
+
+// Stack function START
+
+// Swap the first two elements at the top of stack A
+bool sa(t_stack *stack_a);
+
+// Swap the first two elements at the top of stack B
+bool sb(t_stack *stack_b);
+
+// sa and sb at the same time
+bool ss(t_stack *stack_a, t_stack *stack_b);
+
+// Take the first element at the top of B and put it at the top of A
+bool pa(t_stack *stack_a, t_stack *stack_b);
+
+// Take the first element at the top of A and put it at the top of B
+bool pb(t_stack *stack_a, t_stack *stack_b);
+
+// Shift up all elements of stack A by one
+bool ra(t_stack *stack_a);
+
+// Shift up all elements of stack B by one
+bool rb(t_stack *stack_b);
+
+// ra and rb at the same time
+bool rr(t_stack *stack_a, t_stack *stack_b);
+
+// Shift down all elements of stack A by one
+bool rra(t_stack *stack_a);
+
+// Shift down all elements of stack B by one
+bool rrb(t_stack *stack_b);
+
+// rra and rrb at the same time
+bool rrr(t_stack *stack_a, t_stack *stack_b);
 
 #endif
