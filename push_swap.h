@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:25:10 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/08 12:25:18 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/08 14:16:29 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ typedef struct s_stack {
     int arr[MAX_SIZE];  
 	int top;        
 } t_stack;
+
+typedef struct s_string {
+    char *str;
+	int ln;
+} t_string;
 
 // Stack function START
 // Swap the first two elements at the top of stack A
@@ -65,7 +70,7 @@ bool	rrr(t_stack *stack_a, t_stack *stack_b);
 
 // Stack function STOP
 
-bool	input_handler(int argc, char **argv);
+t_stack	*input_handler(int argc, char **argv);
 // Prints "ERROR\n" and then exits using the exitcode provided
 void	error_fun(int error);
 
@@ -80,7 +85,7 @@ int	selected_alg(char **argv);
 // check str
 int	*check_string(char *argv);
 int	*create_num_arr(char *str);
-bool has_dup(int *numbers);
+bool has_dup(int *numbers, size_t ln);
 bool is_just_num(char *str);
 
 #endif

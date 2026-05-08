@@ -6,11 +6,12 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 11:42:05 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/08 12:34:02 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/08 14:26:14 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../push_swap.h"
+
 
 bool is_just_num(char *str)
 {
@@ -32,14 +33,14 @@ bool is_just_num(char *str)
 	return (true);
 }
 
-bool has_dup(int *numbers)
+bool has_dup(int *numbers, size_t ln)
 {
 	size_t	i;
 	size_t	x;
 	
 	i = 0;
 	x = 0;
-	while (numbers[i])
+	while (i < ln)
 	{
 		x = i + 1;
 		while (numbers[x])
@@ -54,27 +55,46 @@ bool has_dup(int *numbers)
 }
 
 
-// TODO: This could be change to **str to handle string input and 2D string input
+// TODO: This could be changed to **str to handle string input and 2D string input
 int	*create_num_arr(char *str)
 {
-	char	*s;
+	char	**s;
 	int		*numbers;
 	size_t	i;
+	size_t	str_ln;
+	size_t	s_ln;
 
-	s = ft_split(str, ' ');				// MEMORY FREE!
 	i = 0;
-	if (!s)
-		error_fun(ENOMEM);
-	while (s[i])
+	str_ln = ft_strlen(str);
+	if (ft_strchr(str, ' '))
+	{
+		s = ft_split(str, ' ');		// ! MEMORY FREE!
+		if (!s)
+			error_fun(ENOMEM);
+		s_ln = ft_strlen(*s);
+		printf(" STR LN: %d\n");
+		numbers = malloc(sizeof(int) * s_ln);
+		if (!numbers)
+			error_fun(ENOMEM);
+	}
+	else
+	{
+		numbers = malloc(sizeof(int));
+		if (!numbers)
+			error_fun(ENOMEM);
+		s_ln = 1;
+	}
+	while (i < s_ln)
 	{
 		numbers[i] = ft_atoi(s[i]);
 		i++;
 	}
 	// ! DOES NOT FREE PROPER CONTENTS
-	free(s);		// Not needed anymore
-	if (has_dup(numbers))			// Not sure if we should quit here instant or return false and then quit
+	// free(s);
+	if (has_dup(numbers, s_ln))
 		return (NULL);
 		//exit(EINVAL);
+	printf("%d\n", numbers[1]);
 	return (numbers);
 	
 }

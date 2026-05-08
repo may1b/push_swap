@@ -6,11 +6,11 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 09:57:40 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/08 12:26:16 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/08 14:18:30 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../push_swap.h"
 
 int	selected_alg(char **argv)
 {
@@ -47,20 +47,33 @@ int	selected_alg(char **argv)
 t_stack *input_handler(int argc, char **argv)
 {
 	t_stack	*stack;
+	int		*numbers;
 	size_t	i;
+	size_t	x;
 
 	i = 1;
-	
+	x = 0;
 	// *Not enough arguments
 	if (argc < 2)
 		error_fun(EINVAL);
 	
+	numbers = check_string(argv[i]);
 	// ! Might get removed. Unsure of use
-	while (argv[i])
-	{
-		if(!check_string(argv[i]))
-			// TODO: Should check if its a arg
-		stack->arr[i]
-		i++;
-	}
+	// while (argv[i])
+	// {
+	// 	numbers = check_string(argv[i]); 
+	// 	if(!numbers)
+	// 		// TODO: Should check if its a arg
+	// 	while (numbers[x])
+	// 	{
+	// 		stack->arr[i] = numbers[x];
+	// 		x++;
+	// 		i++;
+	// 	}
+	// 	x = 0;
+	// 	i++;
+	// }
+	// stack->top = i - 1;
+	// printf("%d\n", stack->arr[0]);
+	printf("%d", numbers[0]);
 }
