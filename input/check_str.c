@@ -6,14 +6,14 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 11:42:05 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/08 14:26:14 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/11 15:32:59 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
 
-bool is_just_num(char *str)
+bool only_num_space(char *str)
 {
 	size_t	i;
 	bool	space_before;
@@ -33,19 +33,19 @@ bool is_just_num(char *str)
 	return (true);
 }
 
-bool has_dup(int *numbers, size_t ln)
+bool has_dup(t_int_arr numb)
 {
 	size_t	i;
 	size_t	x;
 	
 	i = 0;
 	x = 0;
-	while (i < ln)
+	while (i < numb.ln - 1)
 	{
 		x = i + 1;
-		while (numbers[x])
+		while (x < numb.ln - 1)
 		{
-			if (numbers[i] == numbers[x])
+			if (numb.numbers[i] == numb.numbers[x])
 				return (true);
 			x++;
 		}
@@ -54,83 +54,51 @@ bool has_dup(int *numbers, size_t ln)
 	return (false);
 }
 
-
-// TODO: This could be changed to **str to handle string input and 2D string input
-int	*create_num_arr(char *str)
+t_int_arr create_num_arr(char *str)
 {
-	char	**s;
-	int		*numbers;
 	size_t	i;
-	size_t	str_ln;
-	size_t	s_ln;
-
+	char	**arr;
+	t_int_arr	numb;
+	
 	i = 0;
-	str_ln = ft_strlen(str);
-	if (ft_strchr(str, ' '))
-	{
-		s = ft_split(str, ' ');		// ! MEMORY FREE!
-		if (!s)
-			error_fun(ENOMEM);
-		s_ln = ft_strlen(*s);
-		printf(" STR LN: %d\n");
-		numbers = malloc(sizeof(int) * s_ln);
-		if (!numbers)
-			error_fun(ENOMEM);
-	}
+	arr = ft_split(str, ' ');
+	if (!arr)
+		error_fun(ENOMEM);
+	if (!ft_strchr(str, ' '))
+		numb.ln = 1;
 	else
+		numb.ln = str_arr_len(arr);
+	numb.numbers = malloc(sizeof(int) * numb.ln);
+	if (!numb.numbers)
 	{
-		numbers = malloc(sizeof(int));
-		if (!numbers)
-			error_fun(ENOMEM);
-		s_ln = 1;
+		free_array((void **)arr, numb.ln + 1);
+		error_fun(ENOMEM);
 	}
-	while (i < s_ln)
+	while (i < numb.ln)
 	{
-		numbers[i] = ft_atoi(s[i]);
+		numb.numbers[i] = ft_atoi(arr[i]);
 		i++;
 	}
-	// ! DOES NOT FREE PROPER CONTENTS
-	// free(s);
-	if (has_dup(numbers, s_ln))
-		return (NULL);
-		//exit(EINVAL);
-	printf("%d\n", numbers[1]);
-	return (numbers);
-	
+	free_array((void **)arr, numb.ln);
+	return (numb);
 }
 
-// t_stack	*create_stack_bak(char *str)
-// {
-// 	char	*s;
-// 	int		*numbers;
-// 	size_t	i;
-// 	t_stack	stack_a;
-
-// 	stack_a.top = -1;
-// 	s = ft_split(str, ' ');				// MEMORY FREE!
-// 	i = 0;
-// 	if (!s)
-// 		error_fun(ENOMEM);
-// 	while (s[i])
-// 	{
-// 		stack_a.arr[i] = ft_atoi(s[i]);
-// 		stack_a.top = i++;
-// 	}
-// 	free(s);		// Not needed anymore
-// 	if (has_dup(stack_a.arr))			// Not sure if we should quit here instant or return false and then quit
-// 		return (NULL);
-// 		//exit(EINVAL);
-// 	return (&stack_a);
-	
-// }
-int	*check_string(char *argv)
+t_int_arr check_string(char *argv, int *alg_selected)
 {
-	int	*numbers;
+	t_int_arr	numb;
 	
-	if (!is_just_num(argv))
+	if (!only_num_space(argv))
+	{
+		*alg_selected = selected_alg(argv);
+		if (*alg_selected == ALG_NONE)
+			error_fun(EINVAL);
+		numb.ln = 0;
+		return (numb);
+	}
+	numb = create_num_arr(argv);
+	if (!numb.numbers)
 		error_fun(EINVAL);
-	numbers = create_num_arr(argv);
-	if (!numbers)
+	if (has_dup(numb))
 		error_fun(EINVAL);
-	return (numbers);
+	return (numb);
 }

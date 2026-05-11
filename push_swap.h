@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:25:10 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/08 14:16:29 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/11 15:31:46 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,28 @@ typedef struct s_stack {
 	int top;        
 } t_stack;
 
-typedef struct s_string {
-    char *str;
-	int ln;
-} t_string;
+typedef enum e_alg
+{
+	ALG_SIMPLE		= 0,
+    ALG_MEDIUM		= 1,
+    ALG_COMPLEX		= 2,
+    ALG_ADAPTIVE	= 3,
+    ALG_NONE		= -1
+}   t_alg;
+// typedef struct s_string {
+//     char *str;
+// 	int ln;
+// } t_string;
+
+// typedef struct s_string_arr {
+//     char **arr;
+// 	int ln;
+// } t_string_arr;
+
+typedef struct s_int_arr {
+    int	*numbers;
+	size_t ln;
+} t_int_arr;
 
 // Stack function START
 // Swap the first two elements at the top of stack A
@@ -70,22 +88,26 @@ bool	rrr(t_stack *stack_a, t_stack *stack_b);
 
 // Stack function STOP
 
-t_stack	*input_handler(int argc, char **argv);
+t_stack	input_handler(int argc, char **argv, int *alg_selected);
 // Prints "ERROR\n" and then exits using the exitcode provided
 void	error_fun(int error);
 
 
 
 // Input file
-int	selected_alg(char **argv);
+int	selected_alg(char *argv);
 
 
 
 
 // check str
-int	*check_string(char *argv);
-int	*create_num_arr(char *str);
-bool has_dup(int *numbers, size_t ln);
-bool is_just_num(char *str);
+t_int_arr check_string(char *argv, int *alg_selected);
+t_int_arr create_num_arr(char *str);
+bool has_dup(t_int_arr);
+bool only_num_space(char *str);
 
+size_t	str_arr_len(char **arr);
+
+
+void	free_array(void **p, size_t ln);
 #endif
