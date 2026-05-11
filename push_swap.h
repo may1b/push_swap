@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:25:10 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/11 15:31:46 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/11 16:26:54 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,10 @@ void	error_fun(int error);
 int	selected_alg(char *argv);
 
 
-
-
 // check str
-t_int_arr check_string(char *argv, int *alg_selected);
+t_int_arr check_string_and_create(char *argv, int *alg_selected);
 t_int_arr create_num_arr(char *str);
-bool has_dup(t_int_arr);
+bool has_dup(t_stack numb);
 bool only_num_space(char *str);
 
 size_t	str_arr_len(char **arr);
