@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 11:42:05 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/11 16:43:27 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/12 09:51:27 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,13 @@ bool only_num_space(char *str)
 	
 	i = 0;
 	space_before = true;
-	if (str[0] == '-')
+	if (str[0] == '-' && str[1])
 		str++;
 	while (str[i])
 	{
-		if (ft_isdigit(str[i]))
-			space_before = false;
-		else if (str[i] == ' ' && !space_before && str[i + 1])
-			space_before = true;
-		else
+		if (!ft_isdigit(str[i]))
 			return (false);
-			i++;
+		i++;
 	}
 	return (true);
 }
@@ -56,50 +52,42 @@ bool has_dup(t_stack numb)
 	return (false);
 }
 
-t_int_arr create_num_arr(char *str)
+t_int_arr check_string_and_create(char *argv, int *alg_selected)
 {
-	size_t	i;
-	char	**arr;
 	t_int_arr	numb;
-	
+	char	**arr;
+	size_t	i;
+	size_t	x;
+	static bool was_selected = false;
+
 	i = 0;
-	arr = ft_split(str, ' ');
+	x = 0;
+	arr = ft_split(argv, ' ');
 	if (!arr)
 		error_fun(ENOMEM);
-	if (!ft_strchr(str, ' '))
+	if (!ft_strchr(argv, ' '))
 		numb.ln = 1;
 	else
 		numb.ln = str_arr_len(arr);
 	numb.numbers = malloc(sizeof(int) * numb.ln);
 	if (!numb.numbers)
-	{
-		free_array((void **)arr, numb.ln + 1);
-		error_fun(ENOMEM);
-	}
+		error_fun(EINVAL);
 	while (i < numb.ln)
 	{
-		numb.numbers[i] = ft_atoi(arr[i]);
+		if (!only_num_space(arr[i]))
+		{
+			*alg_selected = selected_alg(arr[i]);
+			if ((*alg_selected == ALG_NONE) || !(i == 0 || i == numb.ln - 1) || was_selected)
+				error_fun(EINVAL);
+			i++;
+			was_selected = true;
+			continue;
+		}
+		numb.numbers[x] = ft_atoi(arr[i]);
+		x++;
 		i++;
 	}
-	free_array((void **)arr, numb.ln);
-	return (numb);
-}
-
-t_int_arr check_string_and_create(char *argv, int *alg_selected)
-{
-	t_int_arr	numb;
-	
-	if (!only_num_space(argv))		// ! If you have negative numbers it wont work anymore :(
-	{
-		*alg_selected = selected_alg(argv);
-		if (*alg_selected == ALG_NONE)
-			error_fun(EINVAL);
-		numb.ln = 0;
-		return (numb);
-	}
-	numb = create_num_arr(argv);
-	if (!numb.numbers)
-		error_fun(EINVAL);
+	numb.ln = x;
 	return (numb);
 }
 int	selected_alg(char *argv)
