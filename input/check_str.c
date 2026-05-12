@@ -6,7 +6,7 @@
 /*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 11:42:05 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/12 20:22:19 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/12 22:12:32 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,26 +76,27 @@ t_int_arr	check_string_and_create(char *argv, int *alg_selected)
 	return (numb);
 }
 
+#define ARG_COUNT 4
+
 // ! We will need to add support for the --bench
 int	selected_alg(char *argv)
 {
-	size_t	x;
-	char	*arguments[5];
+	size_t	i;
+	char	*arguments[ARG_COUNT];
 
 	arguments[0] = "--simple";
 	arguments[1] = "--medium";
 	arguments[2] = "--complex";
 	arguments[3] = "--adaptive";
-	arguments[4] = NULL;
-	x = 0;
-	while (arguments[x])
+	i = 0;
+	while (i < ARG_COUNT)
 	{
-		if (ft_strnstr(argv, arguments[x], ft_strlen(argv)))
+		if (ft_strnstr(argv, arguments[i], ft_strlen(argv)))
 		{
-			printf("selected: %s\n", arguments[x]);
-			return (x);
+			printf("selected: %s\n", arguments[i]);
+			return (i);
 		}
-		x++;
+		i++;
 	}
 	return (-1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:58:26 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/12 10:26:04 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/12 22:20:49 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,21 @@
 // Swap the first two elements at the top of a stack
 bool	swap(t_stack *stack)
 {
-	int	tmp;
+	int	last_el;
 
-	if (stack->top < 1)
+	if (stack->size < 2)
 		return (false);
-	tmp = stack->arr[stack->top];
-	stack->arr[stack->top] = stack->arr[stack->top - 1];
-	stack->arr[stack->top - 1] = tmp;
+	last_el = stack->arr[stack->size - 1];
+	stack->arr[stack->size - 1] = stack->arr[stack->size];
+	stack->arr[stack->size] = last_el;
 	return (true);
 }
 // Take the first element at the top of Stack A and put it at the top of B.
 bool	push(t_stack *stack_a, t_stack *stack_b)
 {
-	if (stack_a->top < 0)
+	if (!stack_a->size)
 		return (false);
-	stack_b->top++;
-	stack_b->arr[stack_b->top] = stack_a->arr[stack_a->top];
-	stack_a->top--;
+	stack_b->arr[stack_b->size++] = stack_a->arr[--(stack_a->size)];
 	return (true);
 }
 // Shifts the 
@@ -78,7 +76,7 @@ bool sb(t_stack *stack_b)
 // sa and sb at the same time
 bool ss(t_stack *stack_a, t_stack *stack_b)
 {
-    if (stack_a->top < 1 || stack_b->top < 1)
+    if (!stack_a->size || !stack_b->size)
         return (false);
     swap(stack_a);
     swap(stack_b);
@@ -125,7 +123,7 @@ bool rb(t_stack *stack_b)
 // ra and rb at the same time
 bool rr(t_stack *stack_a, t_stack *stack_b)
 {
-    if (stack_a->top < 1 || stack_b->top < 1)
+    if (!stack_a->size || !stack_b->size)
         return (false);
     shift(stack_a, false);
     shift(stack_b, false);
@@ -154,7 +152,7 @@ bool	rrb(t_stack *stack_b)
 // rra and rrb at the same time
 bool	rrr(t_stack *stack_a, t_stack *stack_b)
 {
-    if (stack_a->top < 1 || stack_b->top < 1)
+    if (stack_a->size || !stack_b->size)
         return (false);
     shift(stack_a, true);
     shift(stack_b, true);

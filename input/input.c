@@ -3,28 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 09:57:40 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/12 11:18:20 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/12 22:14:18 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-bool	has_dup(t_stack numb)
+bool	has_dup(t_stack *numb)
 {
 	size_t	i;
 	size_t	x;
 
 	i = 0;
-	x = 0;
-	while (i < (numb.top + 1))
+	while (i < numb->size)
 	{
 		x = i + 1;
-		while (x < (numb.top + 1))
+		while (x < numb->size)
 		{
-			if (numb.arr[i] == numb.arr[x])
+			if (numb->arr[i] == numb->arr[x])
 				return (true);
 			x++;
 		}
