@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 09:57:40 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/12 10:05:49 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/12 11:18:20 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,31 @@ bool	has_dup(t_stack numb)
 		i++;
 	}
 	return (false);
+}
+ // ! guard against top being 0
+float disorder(t_stack *stack)
+{
+	size_t	i;
+	size_t	x;
+	int		mistake;
+	int		total_pairs;
+
+	mistake = 0;
+	total_pairs = 0;
+	i = 0;
+	while (i < stack->top)
+	{
+		x = i + 1;
+		while (x <= stack->top)
+		{
+			if (stack->arr[i] > stack->arr[x])
+				mistake++;
+			total_pairs++;
+			x++;
+		}
+		i++;
+	}
+	return ((float)mistake / total_pairs);
 }
 
 t_stack	input_handler(int argc, char **argv, int *alg_selected)

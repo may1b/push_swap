@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:23:42 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/11 16:27:15 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/12 10:54:48 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(int argc, char **argv)
 	// * THIS IS THE INPUT HANDLER, IT DOES ALL THE INPUT THINGS
 	// TODO: It does not return the selected alg yet
 	stack_a = input_handler(argc, argv, &alg_selected);
+	printf("%f", disorder(&stack_a));
 	// printf("%d\n", stack_a.top);
 	if (has_dup(stack_a))
 		error_fun(EINVAL);
@@ -37,7 +38,11 @@ int	main(int argc, char **argv)
 	{
 		printf("NUMBER: %d\n", stack_a.arr[i++]);
 	}
-	// if (!input_handler(argc, argv))
-		// return (-1);
-		
+	printf("---------------------------\n");
+	bubble_sort_new(&stack_a, &stack_b);	
+	i = 0;
+	while (i <= stack_a.top)
+	{
+		printf("NUMBER: %d\n", stack_a.arr[i++]);
+	}
 }

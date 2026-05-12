@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:58:26 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/07 11:27:11 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/12 10:26:04 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 // ################################# HELPER START #####################################
 // Swap the first two elements at the top of a stack
-bool swap(t_stack *stack)
+bool	swap(t_stack *stack)
 {
 	int	tmp;
 
@@ -27,14 +27,13 @@ bool swap(t_stack *stack)
 	return (true);
 }
 // Take the first element at the top of Stack A and put it at the top of B.
-bool push(t_stack *stack_a, t_stack *stack_b)
+bool	push(t_stack *stack_a, t_stack *stack_b)
 {
-	if (stack_b->top == -1)
+	if (stack_a->top < 0)
 		return (false);
-	if (stack_a->top > 499)	// Should gard against putting over the 500 limit 
-		return (write(OUTPUT, "STACK A IS FULL", 15), false);
-	stack_a->arr[stack_a->top + 1] = stack_b->arr[stack_b->top];
-	stack_a->top++;
+	stack_b->top++;
+	stack_b->arr[stack_b->top] = stack_a->arr[stack_a->top];
+	stack_a->top--;
 	return (true);
 }
 // Shifts the 
@@ -90,7 +89,7 @@ bool ss(t_stack *stack_a, t_stack *stack_b)
 // Take the first element at the top of B and put it at the top of A
 bool pa(t_stack *stack_a, t_stack *stack_b)
 {
-	if (!push(stack_a, stack_b))
+	if (!push(stack_b, stack_a))
 		return (false);
 	write(OUTPUT, "pa\n", 3);
 	return (true);
@@ -99,7 +98,7 @@ bool pa(t_stack *stack_a, t_stack *stack_b)
 // Take the first element at the top of A and put it at the top of B
 bool pb(t_stack *stack_a, t_stack *stack_b)
 {
-	if (!push(stack_b, stack_a))
+	if (!push(stack_a, stack_b))
 		return (false);
 	write(OUTPUT, "pb\n", 3);
 	return (true);
@@ -126,12 +125,12 @@ bool rb(t_stack *stack_b)
 // ra and rb at the same time
 bool rr(t_stack *stack_a, t_stack *stack_b)
 {
-	if (stack_a->top < 1 || stack_a->top < 1)
-		return (false);
-	ra(stack_a);
-	ra(stack_a);
-	write(OUTPUT, "rr\n", 3);
-	return (true);
+    if (stack_a->top < 1 || stack_b->top < 1)
+        return (false);
+    shift(stack_a, false);
+    shift(stack_b, false);
+    write(OUTPUT, "rr\n", 3);
+    return (true);
 }
 
 // Shift down all elements of stack A by one
@@ -144,7 +143,7 @@ bool rra(t_stack *stack_a)
 }
 
 // Shift down all elements of stack B by one
-bool rrb(t_stack *stack_b)
+bool	rrb(t_stack *stack_b)
 {
 	if (!shift(stack_b, true))
 		return (false);
@@ -153,12 +152,12 @@ bool rrb(t_stack *stack_b)
 }
 
 // rra and rrb at the same time
-bool rrr(t_stack *stack_a, t_stack *stack_b)
+bool	rrr(t_stack *stack_a, t_stack *stack_b)
 {
-	if (stack_a->top < 1 || stack_a->top < 1)
-		return (false);
-	ra(stack_a);
-	ra(stack_a);
-	write(OUTPUT, "rrr\n", 4);
-	return (true);
+    if (stack_a->top < 1 || stack_b->top < 1)
+        return (false);
+    shift(stack_a, true);
+    shift(stack_b, true);
+    write(OUTPUT, "rrr\n", 4);
+    return (true);
 }

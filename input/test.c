@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_str.c                                        :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 11:42:05 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/12 11:19:17 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/12 11:23:25 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,7 @@ int	selected_alg(char *argv)
 	while (arguments[x])
 	{
 		if (ft_strnstr(argv, arguments[x], ft_strlen(argv)))
-		{
-			printf("selected: %s\n", arguments[x]);
 			return (x);
-		}
 		x++;
 	}
 	return (-1);

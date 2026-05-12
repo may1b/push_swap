@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:25:10 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/12 09:19:57 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/12 10:54:43 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,7 @@ size_t	str_arr_len(char **arr);
 
 
 void	free_array(void **p, size_t ln);
+
+void bubble_sort_new(t_stack *stack_a, t_stack *stack_b);
+float disorder(t_stack *stack);
 #endif
