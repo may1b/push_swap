@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   sorting_alg.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:52:59 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/12 10:29:03 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/12 22:30:37 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 
-int operate_count;
+static int operate_count = 0;
 
-operate_count = 0;
 
 // iterates trough the stack and sorts for biggest up
 size_t static swap_and_push(t_stack *stack_a, bool(*r)(t_stack *), size_t offset)
