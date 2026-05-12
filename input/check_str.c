@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   check_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 11:42:05 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/12 11:19:17 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/12 20:22:19 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
-bool	only_num_space(char *str)
+// FIXME: overflow checking
+bool	contains_only_numbers_and_spaces(char *str)
 {
 	size_t	i;
-	bool	space_before;
 
 	i = 0;
-	space_before = true;
 	if (str[0] == '-' && str[1])
 		str++;
 	while (str[i])
@@ -61,7 +60,7 @@ t_int_arr	check_string_and_create(char *argv, int *alg_selected)
 	arr = norm(argv, &numb);
 	while (i < numb.ln)
 	{
-		if (!only_num_space(arr[i]))
+		if (!contains_only_numbers_and_spaces(arr[i]))
 		{
 			*alg_selected = selected_alg(arr[i]);
 			if ((*alg_selected == ALG_NONE) || !(i == 0 || i == numb.ln - 1)

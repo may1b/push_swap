@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:25:10 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/12 10:54:43 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/12 20:22:18 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	selected_alg(char *argv);
 t_int_arr check_string_and_create(char *argv, int *alg_selected);
 int create_num_arr(char *str);
 bool has_dup(t_stack numb);
-bool only_num_space(char *str);
+bool contains_only_numbers_and_spaces(char *str);
 
 size_t	str_arr_len(char **arr);
 
