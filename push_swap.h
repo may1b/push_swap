@@ -6,7 +6,7 @@
 /*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:25:10 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/12 20:54:51 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/12 22:32:30 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ typedef struct s_int_arr {
     int	*numbers;
 	size_t ln;
 } t_int_arr;
+
+typedef struct s_sv {
+    char *str;
+    size_t size;
+} t_sv;
 
 // Stack function START
 // Swap the first two elements at the top of stack A

@@ -6,7 +6,7 @@
 /*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:58:26 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/12 22:20:49 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/12 22:22:00 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool shift(t_stack *stack, bool reverse)
 {
 	int	tmp;
 	
-	if (stack->top < 1)
+	if (!stack->size)
 		return (false);
 	if (reverse)
 	{
