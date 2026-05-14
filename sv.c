@@ -11,45 +11,61 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stddef.h>
 
-
-#define $initArrayList(Type) ({              \
-    size_t cap = 4;                          \
-    Type* item = malloc(sizeof(Type) * cap); \
-    (ArrayList##Type) {                      \
-        .items = item,                       \
-        .len = 0,                            \
-        .cap = cap,                          \
-    };                                       \
-})
-
-// Dynamic arrray of string views
-typedef struct s_sv_da {
-    t_sv* items;
-    size_t size;
-} t_sv_da;
-
-t_sv_da init_sv_da()
+static size_t	count_segments(t_sv sv, char delim)
 {
+	size_t	count;
+	size_t	i;
+	bool	in_seg;
 
+	count = 0;
+	in_seg = false;
+	i = 0;
+	while (i < sv.size)
+	{
+		if (sv.str[i] != delim && !in_seg)
+		{
+			count++;
+			in_seg = true;
+		}
+		else if (sv.str[i] == delim)
+			in_seg = false;
+		i++;
+	}
+	return (count);
 }
 
-t_sv splitSVByChar(t_sv sv, char splitBy)
+t_sv	sv_slice(t_sv sv, size_t start, size_t len)
 {
-    t_sv svList = $initArrayList(SV);
-    size_t prevSplit = 0;
-    for (size_t i = 0; i < sv.size; ++i) {
-        if (sv.str[i] == splitBy) {
-            t_sv slicedSv = svSlice(sv, prevSplit, i - prevSplit);
-            $append((&svList), slicedSv);
-            prevSplit = i + 1;
-        }
-    }
-    // Add the last segment after the final delimiter
-    if (prevSplit < sv.len) {
-        SV slicedSv = svSlice(sv, prevSplit, sv.len - prevSplit);
-        $append((&svList), slicedSv);
-    }
-    return svList;
+	t_sv	result;
+
+	result.str = sv.str + start;
+	result.size = len;
+	return (result);
+}
+
+t_sv_da	sv_split(t_sv sv, char delim, t_arena *arena)
+{
+	t_sv_da	result;
+	size_t	i;
+	size_t	start;
+
+	result.items = arena_alloc(arena, count_segments(sv, delim) * sizeof(t_sv));
+	result.size = 0;
+	if (!result.items)
+		return (result);
+	i = 0;
+	while (i <= sv.size)
+	{
+		if (i < sv.size && sv.str[i] != delim)
+		{
+			start = i;
+			while (i < sv.size && sv.str[i] != delim)
+				i++;
+			result.items[result.size++] = sv_slice(sv, start, i - start);
+		}
+		else
+			i++;
+	}
+	return (result);
 }
