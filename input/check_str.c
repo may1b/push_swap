@@ -6,14 +6,14 @@
 /*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 11:42:05 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/12 22:12:32 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/14 16:29:04 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../push_swap.h"
 
 // FIXME: overflow checking
-bool	contains_only_numbers_and_spaces(char *str)
+bool	contains_only_numbers(char *str)
 {
 	size_t	i;
 
@@ -60,7 +60,7 @@ t_int_arr	check_string_and_create(char *argv, int *alg_selected)
 	arr = norm(argv, &numb);
 	while (i < numb.ln)
 	{
-		if (!contains_only_numbers_and_spaces(arr[i]))
+		if (!contains_only_numbers(arr[i]))
 		{
 			*alg_selected = selected_alg(arr[i]);
 			if ((*alg_selected == ALG_NONE) || !(i == 0 || i == numb.ln - 1)
