@@ -114,6 +114,21 @@ size_t	str_arr_len(char **arr);
 
 void	free_array(void **p, size_t ln);
 
+typedef struct s_arena_block {
+	struct s_arena_block	*next;
+	size_t					capacity;
+	size_t					used;
+}	t_arena_block;
+
+typedef struct s_arena {
+	t_arena_block	*head;
+	size_t			default_capacity;
+}	t_arena;
+
+t_arena	*arena_new(size_t capacity);
+void	*arena_alloc(t_arena *a, size_t size);
+void	arena_destroy(t_arena *a);
+
 void bubble_sort_new(t_stack *stack_a, t_stack *stack_b);
 float disorder(t_stack *stack);
 #endif
