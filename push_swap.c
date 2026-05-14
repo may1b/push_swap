@@ -3,46 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:23:42 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/12 10:54:48 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/14 16:45:08 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
 
+typedef struct {
+	char	**numbers;
+	t_stack stack_b;
+	t_stack stack_a;
+	int		alg_selected;
+}	t_data;
+
+
 int	main(int argc, char **argv)
 {
-	int		alg_selected;
-	t_stack stack_a;
-	t_stack stack_b;
-	char	**numbers;
 	size_t	i;
+	t_data	this;
 
-	alg_selected = -1;
-	stack_a.top = -1;
-	stack_b.top = -1;
-	numbers = NULL;
 	i = 0;
+	this = (t_data){0};
 
 	// * THIS IS THE INPUT HANDLER, IT DOES ALL THE INPUT THINGS
 	// TODO: It does not return the selected alg yet
-	stack_a = input_handler(argc, argv, &alg_selected);
-	printf("%f", disorder(&stack_a));
+	this.stack_a = input_handler(argc, argv, &this.alg_selected);
+	printf("%f", disorder(&this.stack_a));
 	// printf("%d\n", stack_a.top);
-	if (has_dup(stack_a))
+	if (has_dup(this.stack_a))
 		error_fun(EINVAL);
-	while (i <= stack_a.top)
+	while (i < this.stack_a.size)
 	{
-		printf("NUMBER: %d\n", stack_a.arr[i++]);
+		printf("NUMBER: %d\n", this.stack_a.arr[i++]);
 	}
 	printf("---------------------------\n");
-	bubble_sort_new(&stack_a, &stack_b);	
+	bubble_sort(&this.stack_a);
 	i = 0;
-	while (i <= stack_a.top)
+	while (i < this.stack_a.size)
 	{
-		printf("NUMBER: %d\n", stack_a.arr[i++]);
+		printf("NUMBER: %d\n", this.stack_a.arr[i++]);
 	}
 }

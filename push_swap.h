@@ -52,10 +52,33 @@ typedef struct s_int_arr {
 	size_t ln;
 } t_int_arr;
 
+typedef struct s_arena_block {
+	struct s_arena_block	*next;
+	size_t					capacity;
+	size_t					used;
+}	t_arena_block;
+
+typedef struct s_arena {
+	t_arena_block	*head;
+	size_t			default_capacity;
+}	t_arena;
+
+t_arena	*arena_new(size_t capacity);
+void	*arena_alloc(t_arena *a, size_t size);
+void	arena_destroy(t_arena *a);
+
 typedef struct s_sv {
-    char *str;
-    size_t size;
-} t_sv;
+	char	*str;
+	size_t	size;
+}	t_sv;
+
+typedef struct s_sv_da {
+	t_sv	*items;
+	size_t	size;
+}	t_sv_da;
+
+t_sv		sv_slice(t_sv sv, size_t start, size_t len);
+t_sv_da		sv_split(t_sv sv, char delim, t_arena *arena);
 
 // Stack function START
 // Swap the first two elements at the top of stack A
@@ -114,21 +137,6 @@ size_t	str_arr_len(char **arr);
 
 void	free_array(void **p, size_t ln);
 
-typedef struct s_arena_block {
-	struct s_arena_block	*next;
-	size_t					capacity;
-	size_t					used;
-}	t_arena_block;
-
-typedef struct s_arena {
-	t_arena_block	*head;
-	size_t			default_capacity;
-}	t_arena;
-
-t_arena	*arena_new(size_t capacity);
-void	*arena_alloc(t_arena *a, size_t size);
-void	arena_destroy(t_arena *a);
-
-void bubble_sort_new(t_stack *stack_a, t_stack *stack_b);
+void bubble_sort(t_stack *stack_a);
 float disorder(t_stack *stack);
 #endif
