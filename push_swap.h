@@ -106,5 +106,6 @@ void	error_fun(int error);
 
 bool	has_dup(t_stack *numb);
 void	bubble_sort(t_stack *stack_a);
+void	turk_sort(t_stack *a, t_stack *b);
 float disorder(t_stack *stack);
 #endif

@@ -8,7 +8,8 @@ LIBFT_DIR	= libft
 LIBFT		= $(LIBFT_DIR)/libft.a
 
 OBJ_DIR		= obj
-SRCS		= push_swap.c input.c misc.c stack.c sorting_alg.c alloc.c sv.c
+SRCS		= push_swap.c input.c misc.c stack.c sorting_alg.c alloc.c sv.c \
+			  algorithms/turk/turk.c
 OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # --- benchmark config (node bench.js) ---
@@ -26,6 +27,7 @@ $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(OBJ_DIR)/%.o: %.c push_swap.h | $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR):
