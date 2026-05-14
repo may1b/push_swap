@@ -6,14 +6,15 @@
 /*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:25:10 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/14 16:29:04 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/14 17:38:13 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-#include <errno.h>	// We are allowed to use exit() So might as well use proper exitcodes!
+#include <errno.h>
+#include <limits.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -31,26 +32,12 @@ typedef struct s_stack {
 
 typedef enum e_alg
 {
-	ALG_SIMPLE		= 0,
-    ALG_MEDIUM		= 1,
-    ALG_COMPLEX		= 2,
-    ALG_ADAPTIVE	= 3,
-    ALG_NONE		= -1
+    ALG_NONE,
+	ALG_SIMPLE,
+    ALG_MEDIUM,
+    ALG_COMPLEX,
+    ALG_ADAPTIVE,
 }   t_alg;
-// typedef struct s_string {
-//     char *str;
-// 	int ln;
-// } t_string;
-
-// typedef struct s_string_arr {
-//     char **arr;
-// 	int ln;
-// } t_string_arr;
-
-typedef struct s_int_arr {
-    int	*numbers;
-	size_t ln;
-} t_int_arr;
 
 typedef struct s_arena_block {
 	struct s_arena_block	*next;
@@ -68,17 +55,12 @@ void	*arena_alloc(t_arena *a, size_t size);
 void	arena_destroy(t_arena *a);
 
 typedef struct s_sv {
-	char	*str;
-	size_t	size;
+	const char	*str;
+	size_t		size;
 }	t_sv;
 
-typedef struct s_sv_da {
-	t_sv	*items;
-	size_t	size;
-}	t_sv_da;
-
-t_sv		sv_slice(t_sv sv, size_t start, size_t len);
-t_sv_da		sv_split(t_sv sv, char delim, t_arena *arena);
+t_sv	sv_from_cstr(const char *str);
+bool	sv_eq(t_sv a, const char *b);
 
 // Stack function START
 // Swap the first two elements at the top of stack A
@@ -116,27 +98,13 @@ bool	rrr(t_stack *stack_a, t_stack *stack_b);
 
 // Stack function STOP
 
-t_stack	input_handler(int argc, char **argv, int *alg_selected);
+t_stack	parse_input(int argc, char **argv, t_alg *alg_selected);
 // Prints "ERROR\n" and then exits using the exitcode provided
 void	error_fun(int error);
 
 
 
-// Input file
-int	selected_alg(char *argv);
-
-
-// check str
-t_int_arr check_string_and_create(char *argv, int *alg_selected);
-int create_num_arr(char *str);
-bool has_dup(t_stack numb);
-bool contains_only_numbers(char *str);
-
-size_t	str_arr_len(char **arr);
-
-
-void	free_array(void **p, size_t ln);
-
-void bubble_sort(t_stack *stack_a);
+bool	has_dup(t_stack *numb);
+void	bubble_sort(t_stack *stack_a);
 float disorder(t_stack *stack);
 #endif
