@@ -6,7 +6,7 @@
 /*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 11:14:14 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/14 17:39:41 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/15 22:15:27 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ bool	has_dup(t_stack *numb)
 	}
 	return (false);
 }
+
 float	disorder(t_stack *stack)
 {
 	size_t	i;
@@ -63,4 +64,3 @@ float	disorder(t_stack *stack)
 	}
 	return ((float)mistakes / total_pairs);
 }
-

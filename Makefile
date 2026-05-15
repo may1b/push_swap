@@ -9,7 +9,9 @@ LIBFT		= $(LIBFT_DIR)/libft.a
 
 OBJ_DIR		= obj
 SRCS		= push_swap.c input.c misc.c stack.c sorting_alg.c alloc.c sv.c \
-			  algorithms/turk/turk.c
+			  algorithms/turk/turk.c algorithms/turk/helpers.c \
+			  algorithms/turk/turk_utils.c algorithms/turk/turk_target.c \
+			  algorithms/turk/turk_ops.c
 OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # --- benchmark config (node bench.js) ---

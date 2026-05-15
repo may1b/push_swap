@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:25:10 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/15 13:39:17 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/15 22:17:34 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ typedef struct s_bench
 	unsigned int	rra;
 	unsigned int	rrb;
 	unsigned int	rrr;
-	float	disorder;
-	char	*strategy;
-	char	*complexity;
+	float			disorder;
+	char			*strategy;
+	char			*complexity;
 }	t_bench;
 
 typedef struct s_args
@@ -136,11 +136,10 @@ bool	rrr(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
 
 // * Stack function STOP ---------------------------
 
-
 // Prints "ERROR\n" and then exits using the exitcode provided
 void	error_fun(int error);
 void	print_bench_report(t_bench bench);
-size_t  count_numbers(char **argv, int argc);
+size_t	count_numbers(char **argv, int argc);
 
 t_stack	parse_input(int argc, char **argv, t_args *args);
 float	disorder(t_stack *stack);
