@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   turk.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 00:00:00 by magrass           #+#    #+#             */
-/*   Updated: 2026/05/14 20:32:33 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/15 10:38:05 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,35 +142,35 @@ static t_move	best_push_to_b(t_stack *a, t_stack *b)
 	return (best);
 }
 
-static void	rotate_to_top_a(t_stack *a, int cost)
+static void	rotate_to_top_a(t_stack *a, int cost, t_bench *bench)
 {
 	while (cost > 0)
 	{
-		ra(a); 
+		ra(a, bench); 
 		cost--;
 	}
 	while (cost < 0)
 	{
-		rra(a); 
+		rra(a, bench); 
 		cost++;
 	}
 }
 
-static void	rotate_to_top_b(t_stack *b, int cost)
+static void	rotate_to_top_b(t_stack *b, int cost, t_bench *bench)
 {
 	while (cost > 0)
 	{
-		rb(b); 
+		rb(b, bench); 
 		cost--;
 	}
 	while (cost < 0)
 	{
-		rrb(b);
+		rrb(b, bench);
 		cost++;
 	}
 }
 
-static void	do_b_push(t_stack *a, t_stack *b, t_move m)
+static void	do_b_push(t_stack *a, t_stack *b, t_move m, t_bench *bench)
 {
 	int	ac;
 	int	bc;
@@ -179,33 +179,33 @@ static void	do_b_push(t_stack *a, t_stack *b, t_move m)
 	bc = m.b_cost;
 	while (ac > 0 && bc > 0)
 	{ 
-		rr(a, b);
+		rr(a, b, bench);
 		ac--;
 		bc--; 
 	}
 	while (ac < 0 && bc < 0)
 	{ 
-		rrr(a, b);
+		rrr(a, b, bench);
 		ac++;
 		bc++;
 
 	}
-	rotate_to_top_a(a, ac);
-	rotate_to_top_b(b, bc);
-	pb(a, b);
+	rotate_to_top_a(a, ac, bench);
+	rotate_to_top_b(b, bc, bench);
+	pb(a, b, bench);
 }
 
-static void	find_which_best_to_push_to_b_and_then_do_that(t_stack *a, t_stack *b)
+static void	find_which_best_to_push_to_b_and_then_do_that(t_stack *a, t_stack *b, t_bench *bench)
 {
 	t_move	m;
 
 	while (a->size > 2)
 	{
 		m = best_push_to_b(a, b);
-		do_b_push(a, b, m);
+		do_b_push(a, b, m, bench);
 	}
 	if (a->arr[a->size - 1] > a->arr[a->size - 2])
-		sa(a);
+		sa(a, bench);
 }
 
 /*
@@ -240,7 +240,7 @@ static size_t	target_in_a(t_stack *a, int val)
 	return (best_i);
 }
 
-static void	pull_back_to_b_in_sorted_order(t_stack *a, t_stack *b)
+static void	pull_back_to_b_in_sorted_order(t_stack *a, t_stack *b, t_bench *bench)
 {
 	size_t	tgt;
 	int		cost;
@@ -249,15 +249,15 @@ static void	pull_back_to_b_in_sorted_order(t_stack *a, t_stack *b)
 	{
 		tgt = target_in_a(a, b->arr[b->size - 1]);
 		cost = cost_to_top(tgt, a->size);
-		rotate_to_top_a(a, cost);
-		pa(a, b);
+		rotate_to_top_a(a, cost, bench);
+		pa(a, b, bench);
 	}
 }
 
 /*
 ** Final rotation: put the minimum element on top of A.
 */
-static void	rotate_min_to_top(t_stack *a)
+static void	rotate_min_to_top(t_stack *a, t_bench *bench)
 {
 	int		min;
 	size_t	min_idx;
@@ -277,20 +277,20 @@ static void	rotate_min_to_top(t_stack *a)
 		i++;
 	}
 	cost = cost_to_top(min_idx, a->size);
-	rotate_to_top_a(a, cost);
+	rotate_to_top_a(a, cost, bench);
 }
 
-void	turk_sort(t_stack *a, t_stack *b)
+void	turk_sort(t_stack *a, t_stack *b, t_bench *bench)
 {
 	if (a->size <= 1)
 		return ;
 	if (a->size == 2)
 	{
 		if (a->arr[a->size - 1] > a->arr[a->size - 2])
-			sa(a);
+			sa(a, bench);
 		return ;
 	}
-	find_which_best_to_push_to_b_and_then_do_that(a, b);
-	pull_back_to_b_in_sorted_order(a, b);
-	rotate_min_to_top(a);
+	find_which_best_to_push_to_b_and_then_do_that(a, b, bench);
+	pull_back_to_b_in_sorted_order(a, b, bench);
+	rotate_min_to_top(a, bench);
 }

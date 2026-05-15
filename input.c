@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 17:05:29 by magrass           #+#    #+#             */
-/*   Updated: 2026/05/14 17:35:22 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/15 10:55:03 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,16 @@ static int	parse_int(t_sv token)
 static int	sv_parse_alg(t_sv t)
 {
 	if (sv_eq(t, "--simple"))
-		return (ALG_SIMPLE);
+		return (ARG_SIMPLE);
 	if (sv_eq(t, "--medium"))
-		return (ALG_MEDIUM);
+		return (ARG_MEDIUM);
 	if (sv_eq(t, "--complex"))
-		return (ALG_COMPLEX);
+		return (ARG_COMPLEX);
 	if (sv_eq(t, "--adaptive"))
-		return (ALG_ADAPTIVE);
-	return (ALG_NONE);
+		return (ARG_ADAPTIVE);
+	if (sv_eq(t, "--bench"))
+		return (ARG_BENCH);
+	return (ARG_NONE);
 }
 
 static t_sv	next_token(const char *str, size_t *pos)
@@ -75,7 +77,7 @@ static t_sv	next_token(const char *str, size_t *pos)
 	return (token);
 }
 
-static void	push_token(t_sv token, t_stack *stack, t_alg *alg_selected)
+static void	push_token(t_sv token, t_stack *stack, t_args *args)
 {
 	int	alg;
 
@@ -83,15 +85,30 @@ static void	push_token(t_sv token, t_stack *stack, t_alg *alg_selected)
 		stack->arr[stack->size++] = parse_int(token);
 	else
 	{
+		// ! Added dup check of arg
+		// alg = sv_parse_alg(token);
+		// if (alg == ARG_NONE)
+		// 	error_fun(EINVAL);
+		// if (alg == ARG_BENCH)				// * ADDED BENCH SUPPORT
+		// 	args->bench_on = true;
+		// else
+		// 	args->algorithm = alg;
+
 		alg = sv_parse_alg(token);
-		if (alg == ALG_NONE)
+		if (alg == ARG_NONE)
 			error_fun(EINVAL);
-		*alg_selected = alg;
+		if (((alg == ARG_BENCH && args->bench_on) ||
+			(alg != ARG_BENCH && args->algorithm != ARG_NONE)))
+			error_fun(EINVAL);
+		if (alg == ARG_BENCH)				// * ADDED BENCH SUPPORT
+			args->bench_on = true;
+		else
+			args->algorithm = alg;
 	}
 }
 
 // GLORIOS Input parsing with 0 allocations
-t_stack	parse_input(int argc, char **argv, t_alg *alg_selected)
+t_stack	parse_input(int argc, char **argv, t_args *args)
 {
 	t_stack	stack;
 	t_sv	token;
@@ -109,7 +126,7 @@ t_stack	parse_input(int argc, char **argv, t_alg *alg_selected)
 		{
 			token = next_token(argv[i], &j);
 			if (token.size)
-				push_token(token, &stack, alg_selected);
+				push_token(token, &stack, args);
 		}
 		i++;
 	}

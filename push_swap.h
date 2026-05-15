@@ -3,49 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:25:10 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/14 17:38:13 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/15 11:05:09 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-#include <errno.h>
-#include <limits.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "libft/libft.h"
+# include <errno.h>
+# include <limits.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include "libft/libft.h"
 
-#define ERROR_OUT 2
-#define STAND_OUT 1
-#define MAX_SIZE 500
+# define ERROR_OUT 2
+# define STAND_OUT 1
+# define MAX_SIZE 500
 
-
-typedef struct s_stack {
-    int arr[MAX_SIZE];  
-    size_t size;
-} t_stack;
-
-typedef enum e_alg
+typedef struct s_stack
 {
-    ALG_NONE,
-	ALG_SIMPLE,
-    ALG_MEDIUM,
-    ALG_COMPLEX,
-    ALG_ADAPTIVE,
-}   t_alg;
+	int		arr[MAX_SIZE];
+	size_t	size;
+}	t_stack;
 
-typedef struct s_arena_block {
+typedef enum e_arg
+{
+	ARG_NONE,
+	ARG_SIMPLE,
+	ARG_MEDIUM,
+	ARG_COMPLEX,
+	ARG_ADAPTIVE,
+	ARG_BENCH,
+}	t_arg;
+
+typedef struct s_bench
+{
+	unsigned int	total;
+	unsigned int	sa;
+	unsigned int	sb;
+	unsigned int	ss;
+	unsigned int	pa;
+	unsigned int	pb;
+	unsigned int	ra;
+	unsigned int	rb;
+	unsigned int	rr;
+	unsigned int	rra;
+	unsigned int	rrb;
+	unsigned int	rrr;
+	float	disorder;
+	char	*strategy;
+	char	*complexity;
+}	t_bench;
+
+typedef struct s_args
+{
+	int		algorithm;
+	bool	bench_on;
+}	t_args;
+
+typedef struct s_arena_block
+{
 	struct s_arena_block	*next;
 	size_t					capacity;
 	size_t					used;
 }	t_arena_block;
 
-typedef struct s_arena {
+typedef struct s_data
+{
+	t_stack	stack_a;
+	t_stack	stack_b;
+	t_args	args;
+	t_bench	bench;
+}	t_data;
+
+typedef struct s_arena
+{
 	t_arena_block	*head;
 	size_t			default_capacity;
 }	t_arena;
@@ -54,7 +90,8 @@ t_arena	*arena_new(size_t capacity);
 void	*arena_alloc(t_arena *a, size_t size);
 void	arena_destroy(t_arena *a);
 
-typedef struct s_sv {
+typedef struct s_sv
+{
 	const char	*str;
 	size_t		size;
 }	t_sv;
@@ -62,50 +99,52 @@ typedef struct s_sv {
 t_sv	sv_from_cstr(const char *str);
 bool	sv_eq(t_sv a, const char *b);
 
-// Stack function START
+// * Stack function START ---------------------------
+
 // Swap the first two elements at the top of stack A
-bool sa(t_stack *stack_a);
+bool	sa(t_stack *stack_a, t_bench *bench);
 
 // Swap the first two elements at the top of stack B
-bool sb(t_stack *stack_b);
+bool	sb(t_stack *stack_b, t_bench *bench);
 
 // sa and sb at the same time
-bool ss(t_stack *stack_a, t_stack *stack_b);
+bool	ss(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
 
 // Take the first element at the top of B and put it at the top of A
-bool pa(t_stack *stack_a, t_stack *stack_b);
+bool	pa(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
 
 // Take the first element at the top of A and put it at the top of B
-bool pb(t_stack *stack_a, t_stack *stack_b);
+bool	pb(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
 
 // Shift up all elements of stack A by one
-bool ra(t_stack *stack_a);
+bool	ra(t_stack *stack_a, t_bench *bench);
 
 // Shift up all elements of stack B by one
-bool rb(t_stack *stack_b);
+bool	rb(t_stack *stack_b, t_bench *bench);
 
 // ra and rb at the same time
-bool rr(t_stack *stack_a, t_stack *stack_b);
+bool	rr(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
 
 // Shift down all elements of stack A by one
-bool rra(t_stack *stack_a);
+bool	rra(t_stack *stack_a, t_bench *bench);
 
 // Shift down all elements of stack B by one
-bool rrb(t_stack *stack_b);
+bool	rrb(t_stack *stack_b, t_bench *bench);
 
 // rra and rrb at the same time
-bool	rrr(t_stack *stack_a, t_stack *stack_b);
+bool	rrr(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
 
-// Stack function STOP
+// * Stack function STOP ---------------------------
 
-t_stack	parse_input(int argc, char **argv, t_alg *alg_selected);
+
 // Prints "ERROR\n" and then exits using the exitcode provided
 void	error_fun(int error);
+void	print_bench_report(t_bench bench);
 
 
-
+t_stack	parse_input(int argc, char **argv, t_args *args);
+float	disorder(t_stack *stack);
 bool	has_dup(t_stack *numb);
-void	bubble_sort(t_stack *stack_a);
-void	turk_sort(t_stack *a, t_stack *b);
-float disorder(t_stack *stack);
+void	bubble_sort(t_stack *stack_a, t_bench *bench);
+void	turk_sort(t_stack *a, t_stack *b, t_bench *bench);
 #endif
