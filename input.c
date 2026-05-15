@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 17:05:29 by magrass           #+#    #+#             */
-/*   Updated: 2026/05/15 10:55:03 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/15 13:39:01 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,26 @@ t_stack	parse_input(int argc, char **argv, t_args *args)
 		i++;
 	}
 	return (stack);
+}
+
+size_t  count_numbers(char **argv, int argc)
+{
+    size_t  count;
+    size_t  i;
+    char    *tmp;
+
+    count = 0;
+    i = 1;
+    while (i < (size_t)argc)
+    {
+        tmp = argv[i];
+        while (*tmp)
+        {
+            while (*tmp == ' ') tmp++;
+            if (*tmp) count++;
+            while (*tmp && *tmp != ' ') tmp++;
+        }
+        i++;
+    }
+    return (count);
 }

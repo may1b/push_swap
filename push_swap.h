@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:25:10 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/15 11:05:09 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/15 13:39:17 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ bool	rrr(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
 // Prints "ERROR\n" and then exits using the exitcode provided
 void	error_fun(int error);
 void	print_bench_report(t_bench bench);
-
+size_t  count_numbers(char **argv, int argc);
 
 t_stack	parse_input(int argc, char **argv, t_args *args);
 float	disorder(t_stack *stack);
