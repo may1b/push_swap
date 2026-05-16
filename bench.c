@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   bench.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 09:46:46 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/15 11:04:18 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/16 19:06:21 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdio.h>
 
 void	print_bench_report(t_bench bench)
 {
