@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 11:14:14 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/15 22:15:27 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/18 09:47:41 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ bool	has_dup(t_stack *numb)
 	}
 	return (false);
 }
-
 float	disorder(t_stack *stack)
 {
 	size_t	i;
@@ -64,3 +63,4 @@ float	disorder(t_stack *stack)
 	}
 	return ((float)mistakes / total_pairs);
 }
+

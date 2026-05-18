@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:25:10 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/15 22:17:34 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/18 10:02:25 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include "libft/libft.h"
+# include "ft_printf.h"
 
 # define ERROR_OUT 2
 # define STAND_OUT 1

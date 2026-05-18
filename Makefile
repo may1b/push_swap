@@ -12,7 +12,7 @@ SRCS		= push_swap.c input.c misc.c stack.c sorting_alg.c alloc.c sv.c \
 			  algorithms/turk/turk.c algorithms/turk/helpers.c \
 			  algorithms/turk/turk_utils.c algorithms/turk/turk_target.c \
 			  algorithms/turk/turk_ops.c \
-			  bench.c
+			  bench.c libftprintf.a # ! HELLO I AM FOR NOW SO IT WORKS WITH MY FT_PRINTF AND NOT THE STD C ONE
 OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # --- benchmark config (node bench.js) ---
