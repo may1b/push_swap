@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 17:05:29 by magrass           #+#    #+#             */
-/*   Updated: 2026/05/15 13:39:01 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/18 10:58:17 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,4 +153,37 @@ size_t  count_numbers(char **argv, int argc)
         i++;
     }
     return (count);
+}
+
+void	ranking(t_stack *stack)
+{
+	int	rank;
+	size_t	i;
+	size_t	j;
+	int		*original;
+
+	original = malloc(sizeof(int) * stack->size + 1);
+	if (!original)
+		error_fun(ENOMEM);
+	i = 0;
+	while (i < stack->size)
+	{
+		original[i] = stack->arr[i];
+		i++;
+	}
+	i = 0;
+	while (i < stack->size)
+	{
+		j = 0;
+		rank = 0;
+		while (j < stack->size)
+		{
+			if (original[j] < original[i])
+				rank++;
+			j++;
+		}
+		stack->arr[i] = rank;
+		i++;
+	}
+	free(original);
 }
