@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 17:05:29 by magrass           #+#    #+#             */
-/*   Updated: 2026/05/18 10:58:17 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/19 11:36:04 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,14 @@ static void	push_token(t_sv token, t_stack *stack, t_args *args)
 	int	alg;
 
 	if (sv_is_number(token))
-		stack->arr[stack->size++] = parse_int(token);
+	{
+		ft_memmove(stack->arr + 1, stack->arr, stack->size * sizeof(int));
+	stack->arr[0] = parse_int(token);
+	stack->size++;
+	}
+		// stack->arr[stack->size++] = parse_int(token);
 	else
 	{
-		// ! Added dup check of arg
-		// alg = sv_parse_alg(token);
-		// if (alg == ARG_NONE)
-		// 	error_fun(EINVAL);
-		// if (alg == ARG_BENCH)				// * ADDED BENCH SUPPORT
-		// 	args->bench_on = true;
-		// else
-		// 	args->algorithm = alg;
-
 		alg = sv_parse_alg(token);
 		if (alg == ARG_NONE)
 			error_fun(EINVAL);
@@ -162,7 +158,7 @@ void	ranking(t_stack *stack)
 	size_t	j;
 	int		*original;
 
-	original = malloc(sizeof(int) * stack->size + 1);
+	original = malloc(sizeof(int) * stack->size);
 	if (!original)
 		error_fun(ENOMEM);
 	i = 0;

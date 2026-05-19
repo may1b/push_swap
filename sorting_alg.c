@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 11:52:59 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/15 10:51:24 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/19 11:34:46 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static size_t	bubble_sort_pass(t_stack *a, bool (*rotate)(t_stack *,
 	swaps = 0;
 	while (i < steps)
 	{
-		if (a->arr[a->size - 1] < a->arr[a->size - 2])
+		if (a->arr[a->size - 1] > a->arr[a->size - 2])
 		{
 			sa(a, bench);
 			swaps++;
