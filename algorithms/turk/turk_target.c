@@ -59,7 +59,7 @@ size_t	target_in_a(t_stack *a, int val)
 		}
 		i++;
 	}
-	if (best == INT_MAX)
+	if (best == INT_MIN)
 	{
 		if (find_smallest(a) == a->arr[0])
 			return (0);

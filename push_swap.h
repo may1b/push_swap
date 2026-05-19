@@ -152,11 +152,14 @@ t_stack	parse_input(int argc, char **argv, t_args *args);
 float	disorder(t_stack *stack);
 bool	has_dup(t_stack *numb);
 void	bubble_sort(t_stack *stack_a, t_bench *bench);
+void	partial_bubble(t_stack *a, t_bench *bench, size_t max_passes);
 void	turk_sort(t_stack *a, t_stack *b, t_bench *bench);
+void	lis_sort(t_stack *a, t_stack *b, t_bench *bench);
 void	ranking(t_stack *stack);
 
 void	chunk_sort(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
-void	better_chunk_sort(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
+void	better_chunk_sort(t_stack *stack_a, t_stack *stack_b, t_bench *bench,
+			float disorder);
 size_t	find_best_chunk_index(t_stack *stack, size_t min, size_t max);
 void	rotate_stack_a_to_top(t_stack *stack_a, size_t index,
 			t_bench *bench);
