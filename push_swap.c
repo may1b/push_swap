@@ -22,17 +22,26 @@ static void	run_sort(t_data *d)
 	alg = d->args.algorithm;
 	if (alg == ARG_NONE)
 	{
-		if (d->bench.disorder < 0.35f)
+		if (d->stack_a.size <= 5)
+			alg = ARG_SIMPLE;
+		else if (d->bench.disorder < 0.35f)
 			alg = ARG_ADAPTIVE;
 		else
 			alg = ARG_MEDIUM;
 	}
 	if (alg == ARG_SIMPLE)
-		bubble_sort(&d->stack_a, &d->bench);
+	{
+		if (d->stack_a.size <= 5)
+			small_sort(&d->stack_a, &d->stack_b, &d->bench);
+		else
+			bubble_sort(&d->stack_a, &d->bench);
+	}
 	else if (alg == ARG_ADAPTIVE)
 		lis_sort(&d->stack_a, &d->stack_b, &d->bench);
 	else if (alg == ARG_MEDIUM)
-		better_chunk_sort(&d->stack_a, &d->stack_b, &d->bench, d->bench.disorder);
+	{
+		k_sort(&d->stack_a, &d->stack_b, &d->bench);
+	}
 	else
 		turk_sort(&d->stack_a, &d->stack_b, &d->bench);
 }

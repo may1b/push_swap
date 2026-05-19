@@ -155,6 +155,9 @@ void	bubble_sort(t_stack *stack_a, t_bench *bench);
 void	partial_bubble(t_stack *a, t_bench *bench, size_t max_passes);
 void	turk_sort(t_stack *a, t_stack *b, t_bench *bench);
 void	lis_sort(t_stack *a, t_stack *b, t_bench *bench);
+void	radix_sort(t_stack *a, t_stack *b, t_bench *bench);
+void	small_sort(t_stack *a, t_stack *b, t_bench *bench);
+void	k_sort(t_stack *a, t_stack *b, t_bench *bench);
 void	ranking(t_stack *stack);
 
 void	chunk_sort(t_stack *stack_a, t_stack *stack_b, t_bench *bench);

@@ -15,7 +15,9 @@ SRCS	= push_swap.c input.c misc.c stack.c alloc.c sv.c \
 		  algorithms/turk/turk.c algorithms/turk/helpers.c \
 		  algorithms/turk/turk_utils.c algorithms/turk/turk_target.c \
 		  algorithms/turk/turk_ops.c algorithms/bubble/bubble.c \
-		  bench.c algorithms/chunk/better_chunk.c algorithms/lis/lis_sort.c
+		  bench.c algorithms/chunk/better_chunk.c algorithms/lis/lis_sort.c \
+		  algorithms/radix/radix_sort.c algorithms/small/small_sort.c \
+		  algorithms/k/k_sort.c
 OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # --- benchmark config (node bench.js) ---
