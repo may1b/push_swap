@@ -22,101 +22,7 @@ static size_t	ft_sqrt_k(size_t n)
 	return (i - 1);
 }
 
-static size_t	max_index(t_stack *b)
-{
-	size_t	i;
-	size_t	max_i;
-
-	max_i = 0;
-	i = 1;
-	while (i < b->size)
-	{
-		if (b->arr[i] > b->arr[max_i])
-			max_i = i;
-		i++;
-	}
-	return (max_i);
-}
-
-static int	abs_k(int n)
-{
-	if (n < 0)
-		return (-n);
-	return (n);
-}
-
-static int	cost_to_top(size_t i, size_t size)
-{
-	if (i <= size / 2)
-		return ((int)i);
-	return (-(int)(size - i));
-}
-
-static size_t	value_index(t_stack *b, int val)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < b->size)
-	{
-		if (b->arr[i] == val)
-			return (i);
-		i++;
-	}
-	return (0);
-}
-
-static void	rotate_b_to_top(t_stack *b, int cost, t_bench *bench)
-{
-	while (cost > 0)
-	{
-		rb(b, bench);
-		cost--;
-	}
-	while (cost < 0)
-	{
-		rrb(b, bench);
-		cost++;
-	}
-}
-
-static void	pull_max(t_stack *a, t_stack *b, t_bench *bench)
-{
-	size_t	i;
-
-	i = max_index(b);
-	if (i <= b->size / 2)
-		while (i--)
-			rb(b, bench);
-	else
-		while (i++ < b->size)
-			rrb(b, bench);
-	pa(a, b, bench);
-}
-
-static bool	pull_pair_if_cheaper(t_stack *a, t_stack *b, t_bench *bench)
-{
-	size_t	max_i;
-	size_t	second_i;
-	int		max_cost;
-	int		second_cost;
-
-	if (b->size < 2)
-		return (false);
-	max_i = value_index(b, (int)b->size - 1);
-	second_i = value_index(b, (int)b->size - 2);
-	max_cost = cost_to_top(max_i, b->size);
-	second_cost = cost_to_top(second_i, b->size);
-	if (abs_k(second_cost) + 2 >= abs_k(max_cost))
-		return (false);
-	rotate_b_to_top(b, second_cost, bench);
-	pa(a, b, bench);
-	pull_max(a, b, bench);
-	sa(a, bench);
-	return (true);
-}
-
-void	k_sort(t_stack *a, t_stack *b, t_bench *bench)
+static void	k_push_to_b(t_stack *a, t_stack *b, t_bench *bench)
 {
 	size_t	range;
 	size_t	limit;
@@ -137,19 +43,30 @@ void	k_sort(t_stack *a, t_stack *b, t_bench *bench)
 		else
 			ra(a, bench);
 	}
+}
+
+static bool	k_pull_top_pair(t_stack *a, t_stack *b, t_bench *bench)
+{
+	if (b->size > 1 && b->arr[0] == (int)b->size - 2
+		&& b->arr[1] == (int)b->size - 1)
+	{
+		sb(b, bench);
+		pa(a, b, bench);
+		pa(a, b, bench);
+		return (true);
+	}
+	return (false);
+}
+
+void	k_sort(t_stack *a, t_stack *b, t_bench *bench)
+{
+	k_push_to_b(a, b, bench);
 	while (b->size)
 	{
-		if (b->size > 1 && b->arr[0] == (int)b->size - 2
-			&& b->arr[1] == (int)b->size - 1)
+		if (!k_pull_top_pair(a, b, bench))
 		{
-			sb(b, bench);
-			pa(a, b, bench);
-			pa(a, b, bench);
-		}
-		else
-		{
-			if (!pull_pair_if_cheaper(a, b, bench))
-				pull_max(a, b, bench);
+			if (!k_pull_pair_if_cheaper(a, b, bench))
+				k_pull_max(a, b, bench);
 		}
 	}
 }

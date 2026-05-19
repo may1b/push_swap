@@ -12,6 +12,20 @@
 
 #include "push_swap.h"
 
+static t_arg	choose_sort(t_data *d)
+{
+	t_arg	alg;
+
+	alg = d->args.algorithm;
+	if (alg != ARG_NONE)
+		return (alg);
+	if (d->stack_a.size <= 5)
+		return (ARG_SIMPLE);
+	if (d->bench.disorder < 0.35f)
+		return (ARG_ADAPTIVE);
+	return (ARG_MEDIUM);
+}
+
 static void	run_sort(t_data *d)
 {
 	t_arg	alg;
@@ -19,16 +33,7 @@ static void	run_sort(t_data *d)
 	d->bench.disorder = disorder(&d->stack_a);
 	if (d->bench.disorder == 0.0f)
 		return ;
-	alg = d->args.algorithm;
-	if (alg == ARG_NONE)
-	{
-		if (d->stack_a.size <= 5)
-			alg = ARG_SIMPLE;
-		else if (d->bench.disorder < 0.35f)
-			alg = ARG_ADAPTIVE;
-		else
-			alg = ARG_MEDIUM;
-	}
+	alg = choose_sort(d);
 	if (alg == ARG_SIMPLE)
 	{
 		if (d->stack_a.size <= 5)
@@ -39,9 +44,7 @@ static void	run_sort(t_data *d)
 	else if (alg == ARG_ADAPTIVE)
 		lis_sort(&d->stack_a, &d->stack_b, &d->bench);
 	else if (alg == ARG_MEDIUM)
-	{
 		k_sort(&d->stack_a, &d->stack_b, &d->bench);
-	}
 	else
 		turk_sort(&d->stack_a, &d->stack_b, &d->bench);
 }
@@ -52,15 +55,11 @@ int	main(int argc, char **argv)
 
 	d = (t_data){0};
 	d.stack_a = parse_input(argc, argv, &d.args);
-	// d.stack_b.arr = malloc(sizeof(int) * d.stack_a.size);
 	if (has_dup(&d.stack_a))
 		error_fun(EINVAL);
 	ranking(&d.stack_a);
-	// chunk_sort(&d.stack_a, &d.stack_b, &d.bench);
-	// better_chunk_sort(&d.stack_a, &d.stack_b, &d.bench);
 	run_sort(&d);
 	if (d.args.bench_on)
 		print_bench_report(d.bench);
-
 	return (0);
 }

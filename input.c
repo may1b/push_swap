@@ -64,28 +64,12 @@ static int	sv_parse_alg(t_sv t)
 	return (ARG_NONE);
 }
 
-static t_sv	next_token(const char *str, size_t *pos)
-{
-	t_sv	token;
-
-	while (str[*pos] == ' ')
-		(*pos)++;
-	token.str = str + *pos;
-	while (str[*pos] && str[*pos] != ' ')
-		(*pos)++;
-	token.size = (str + *pos) - token.str;
-	return (token);
-}
-
-static void	push_token(t_sv token, t_stack *stack, t_args *args)
+void	push_token(t_sv token, t_stack *stack, t_args *args)
 {
 	int	alg;
 
 	if (sv_is_number(token))
-	{
 		stack->arr[stack->size++] = parse_int(token);
-	}
-		// stack->arr[stack->size++] = parse_int(token);
 	else
 	{
 		alg = sv_parse_alg(token);
@@ -94,14 +78,13 @@ static void	push_token(t_sv token, t_stack *stack, t_args *args)
 		if (((alg == ARG_BENCH && args->bench_on)
 				|| (alg != ARG_BENCH && args->algorithm != ARG_NONE)))
 			error_fun(EINVAL);
-		if (alg == ARG_BENCH)				// * ADDED BENCH SUPPORT
+		if (alg == ARG_BENCH)
 			args->bench_on = true;
 		else
 			args->algorithm = alg;
 	}
 }
 
-// GLORIOS Input parsing with 0 allocations
 t_stack	parse_input(int argc, char **argv, t_args *args)
 {
 	t_stack	stack;
@@ -124,64 +107,5 @@ t_stack	parse_input(int argc, char **argv, t_args *args)
 		}
 		i++;
 	}
-	/* parsed values are pushed with top at arr[0], no reversal needed */
 	return (stack);
-}
-
-size_t	count_numbers(char **argv, int argc)
-{
-	size_t	count;
-	size_t	i;
-	char	*tmp;
-
-	count = 0;
-	i = 1;
-	while (i < (size_t)argc)
-	{
-		tmp = argv[i];
-		while (*tmp)
-		{
-			while (*tmp == ' ')
-				tmp++;
-			if (*tmp)
-				count++;
-			while (*tmp && *tmp != ' ')
-				tmp++;
-		}
-		i++;
-	}
-	return (count);
-}
-
-void	ranking(t_stack *stack)
-{
-	int		rank;
-	size_t	i;
-	size_t	j;
-	int		*original;
-
-	original = malloc(sizeof(int) * stack->size);
-	if (!original)
-		error_fun(ENOMEM);
-	i = 0;
-	while (i < stack->size)
-	{
-		original[i] = stack->arr[i];
-		i++;
-	}
-	i = 0;
-	while (i < stack->size)
-	{
-		j = 0;
-		rank = 0;
-		while (j < stack->size)
-		{
-			if (original[j] < original[i])
-				rank++;
-			j++;
-		}
-		stack->arr[i] = rank;
-		i++;
-	}
-	free(original);
 }

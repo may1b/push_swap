@@ -11,13 +11,17 @@ FT_PRINTF_DIR	= ft_printf
 FT_PRINTF	= $(FT_PRINTF_DIR)/libftprintf.a
 
 OBJ_DIR		= obj
-SRCS	= push_swap.c input.c misc.c stack.c alloc.c sv.c \
+SRCS	= push_swap.c input.c input_utils.c misc.c stack.c stack_ops.c \
+		  stack_rotate.c stack_rotate2.c alloc.c sv.c \
+		  sort_utils.c rotate_cost.c \
 		  algorithms/turk/turk.c algorithms/turk/helpers.c \
 		  algorithms/turk/turk_utils.c algorithms/turk/turk_target.c \
 		  algorithms/turk/turk_ops.c algorithms/bubble/bubble.c \
-		  bench.c algorithms/chunk/better_chunk.c algorithms/lis/lis_sort.c \
+		  bench.c algorithms/chunk/better_chunk.c \
+		  algorithms/chunk/better_chunk_helpers.c algorithms/lis/lis_sort.c \
+		  algorithms/lis/lis_helpers.c \
 		  algorithms/radix/radix_sort.c algorithms/small/small_sort.c \
-		  algorithms/k/k_sort.c
+		  algorithms/k/k_sort.c algorithms/k/k_helpers.c
 OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # --- benchmark config (node bench.js) ---

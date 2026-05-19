@@ -12,27 +12,11 @@
 
 #include "../../push_swap.h"
 
-static size_t	min_index(t_stack *a)
-{
-	size_t	i;
-	size_t	min_i;
-
-	min_i = 0;
-	i = 1;
-	while (i < a->size)
-	{
-		if (a->arr[i] < a->arr[min_i])
-			min_i = i;
-		i++;
-	}
-	return (min_i);
-}
-
 static void	rotate_min_top(t_stack *a, t_bench *bench)
 {
 	size_t	i;
 
-	i = min_index(a);
+	i = stack_min_index(a);
 	if (i <= a->size / 2)
 		while (i--)
 			ra(a, bench);
@@ -41,22 +25,11 @@ static void	rotate_min_top(t_stack *a, t_bench *bench)
 			rra(a, bench);
 }
 
-static void	sort_three(t_stack *a, t_bench *bench)
+static void	sort_three_values(t_stack *a, t_bench *bench, int first,
+	int second)
 {
-	int	first;
-	int	second;
 	int	third;
 
-	if (a->size < 2)
-		return ;
-	if (a->size == 2)
-	{
-		if (a->arr[0] > a->arr[1])
-			sa(a, bench);
-		return ;
-	}
-	first = a->arr[0];
-	second = a->arr[1];
 	third = a->arr[2];
 	if (first > second && second < third && first < third)
 		sa(a, bench);
@@ -74,6 +47,19 @@ static void	sort_three(t_stack *a, t_bench *bench)
 	}
 	else if (first < second && second > third && first > third)
 		rra(a, bench);
+}
+
+static void	sort_three(t_stack *a, t_bench *bench)
+{
+	if (a->size < 2)
+		return ;
+	if (a->size == 2)
+	{
+		if (a->arr[0] > a->arr[1])
+			sa(a, bench);
+		return ;
+	}
+	sort_three_values(a, bench, a->arr[0], a->arr[1]);
 }
 
 void	small_sort(t_stack *a, t_stack *b, t_bench *bench)

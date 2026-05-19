@@ -93,6 +93,15 @@ typedef struct s_chunk_range
 	size_t	end;
 }	t_chunk_range;
 
+typedef struct s_chunk_state
+{
+	size_t	n;
+	size_t	size;
+	size_t	start;
+	size_t	end;
+	size_t	mid;
+}	t_chunk_state;
+
 t_arena	*arena_new(size_t capacity);
 void	*arena_alloc(t_arena *a, size_t size);
 void	arena_destroy(t_arena *a);
@@ -106,49 +115,28 @@ typedef struct s_sv
 t_sv	sv_from_cstr(const char *str);
 bool	sv_eq(t_sv a, const char *b);
 
-// * Stack function START ---------------------------
-
-// Swap the first two elements at the top of stack A
 bool	sa(t_stack *stack_a, t_bench *bench);
-
-// Swap the first two elements at the top of stack B
 bool	sb(t_stack *stack_b, t_bench *bench);
-
-// sa and sb at the same time
 bool	ss(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
-
-// Take the first element at the top of B and put it at the top of A
 bool	pa(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
-
-// Take the first element at the top of A and put it at the top of B
 bool	pb(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
-
-// Shift up all elements of stack A by one
 bool	ra(t_stack *stack_a, t_bench *bench);
-
-// Shift up all elements of stack B by one
 bool	rb(t_stack *stack_b, t_bench *bench);
-
-// ra and rb at the same time
 bool	rr(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
-
-// Shift down all elements of stack A by one
 bool	rra(t_stack *stack_a, t_bench *bench);
-
-// Shift down all elements of stack B by one
 bool	rrb(t_stack *stack_b, t_bench *bench);
-
-// rra and rrb at the same time
 bool	rrr(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
+bool	stack_swap(t_stack *stack);
+bool	stack_push(t_stack *from, t_stack *to);
+bool	stack_shift(t_stack *stack, bool reverse);
 
-// * Stack function STOP ---------------------------
-
-// Prints "ERROR\n" and then exits using the exitcode provided
 void	error_fun(int error);
 void	print_bench_report(t_bench bench);
 size_t	count_numbers(char **argv, int argc);
 
 t_stack	parse_input(int argc, char **argv, t_args *args);
+t_sv	next_token(const char *str, size_t *pos);
+void	push_token(t_sv token, t_stack *stack, t_args *args);
 float	disorder(t_stack *stack);
 bool	has_dup(t_stack *numb);
 void	bubble_sort(t_stack *stack_a, t_bench *bench);
@@ -159,6 +147,18 @@ void	radix_sort(t_stack *a, t_stack *b, t_bench *bench);
 void	small_sort(t_stack *a, t_stack *b, t_bench *bench);
 void	k_sort(t_stack *a, t_stack *b, t_bench *bench);
 void	ranking(t_stack *stack);
+int		ps_abs(int n);
+int		ps_cost_to_top(size_t i, size_t size);
+size_t	stack_min_index(t_stack *a);
+size_t	stack_max_index(t_stack *a);
+void	rotate_a_cost(t_stack *a, int cost, t_bench *bench);
+void	rotate_b_cost(t_stack *b, int cost, t_bench *bench);
+size_t	k_value_index(t_stack *b, int val);
+void	k_pull_max(t_stack *a, t_stack *b, t_bench *bench);
+bool	k_pull_pair_if_cheaper(t_stack *a, t_stack *b, t_bench *bench);
+void	lis_mark(t_stack *a, bool keep[MAX_SIZE]);
+size_t	lis_target_successor(t_stack *a, int val);
+int		lis_move_cost(int a_cost, int b_cost);
 
 void	chunk_sort(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
 void	better_chunk_sort(t_stack *stack_a, t_stack *stack_b, t_bench *bench,
@@ -171,5 +171,9 @@ void	push_chunk_range(t_stack *stack_a, t_stack *stack_b,
 void	push_all_chunks(t_stack *stack_a, t_stack *stack_b,
 			size_t num_chunks, t_bench *bench);
 void	pull_back_stack_b(t_stack *stack_a, t_stack *stack_b,
+			t_bench *bench);
+size_t	chunk_sqrt(size_t n);
+void	set_chunk(t_chunk_state *chunk, size_t i, size_t num_chunks);
+void	push_one_chunk(t_stack *a, t_stack *b, t_chunk_state chunk,
 			t_bench *bench);
 #endif

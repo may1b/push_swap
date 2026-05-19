@@ -17,7 +17,6 @@ int	cost_to_top(size_t i, size_t size)
 	int	fwd;
 	int	rev;
 
-	// with top at arr[0], forward rotations (ra) move index down by 1
 	fwd = (int)i;
 	rev = -(int)(size - i);
 	if (fwd <= -rev)
