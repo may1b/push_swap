@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   turk_target.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 22:28:48 by magrass           #+#    #+#             */
-/*   Updated: 2026/05/15 22:28:48 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/19 13:23:59 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ size_t	target_in_b(t_stack *b, int val)
 	}
 	if (best == INT_MIN)
 	{
-		if (find_largest(b) == b->arr[b->size - 1])
+		if (find_largest(b) == b->arr[0])
 			return (0);
 		return (b->size - 1);
 	}
@@ -47,7 +47,7 @@ size_t	target_in_a(t_stack *a, int val)
 	size_t	best_i;
 	size_t	i;
 
-	best = INT_MAX;
+	best = INT_MIN;
 	best_i = 0;
 	i = 0;
 	while (i < a->size)
@@ -61,7 +61,7 @@ size_t	target_in_a(t_stack *a, int val)
 	}
 	if (best == INT_MAX)
 	{
-		if (find_smallest(a) == a->arr[a->size - 1])
+		if (find_smallest(a) == a->arr[0])
 			return (0);
 		return (a->size - 1);
 	}

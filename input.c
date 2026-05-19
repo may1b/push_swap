@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 17:05:29 by magrass           #+#    #+#             */
-/*   Updated: 2026/05/19 11:36:04 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/19 13:23:59 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,7 @@ static void	push_token(t_sv token, t_stack *stack, t_args *args)
 
 	if (sv_is_number(token))
 	{
-		ft_memmove(stack->arr + 1, stack->arr, stack->size * sizeof(int));
-	stack->arr[0] = parse_int(token);
-	stack->size++;
+		stack->arr[stack->size++] = parse_int(token);
 	}
 		// stack->arr[stack->size++] = parse_int(token);
 	else
@@ -126,6 +124,7 @@ t_stack	parse_input(int argc, char **argv, t_args *args)
 		}
 		i++;
 	}
+	/* parsed values are pushed with top at arr[0], no reversal needed */
 	return (stack);
 }
 

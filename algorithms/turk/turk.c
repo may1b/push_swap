@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   turk.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 00:00:00 by magrass           #+#    #+#             */
-/*   Updated: 2026/05/15 22:28:48 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/19 13:23:59 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	find_which_best_to_push_to_b_and_then_do_that(
 		m = best_push_to_b(a, b);
 		do_b_push(a, b, m, bench);
 	}
-	if (a->arr[a->size - 1] > a->arr[a->size - 2])
+	if (a->arr[0] > a->arr[1])
 		sa(a, bench);
 }
 
@@ -40,7 +40,7 @@ static void	pull_back_to_b_in_sorted_order(
 
 	while (b->size)
 	{
-		tgt = target_in_a(a, b->arr[b->size - 1]);
+		tgt = target_in_a(a, b->arr[0]);
 		cost = cost_to_top(tgt, a->size);
 		rotate_to_top_a(a, cost, bench);
 		pa(a, b, bench);
@@ -76,7 +76,7 @@ void	turk_sort(t_stack *a, t_stack *b, t_bench *bench)
 		return ;
 	if (a->size == 2)
 	{
-		if (a->arr[a->size - 1] > a->arr[a->size - 2])
+		if (a->arr[0] > a->arr[1])
 			sa(a, bench);
 		return ;
 	}

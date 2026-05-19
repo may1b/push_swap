@@ -21,8 +21,8 @@ size_t	find_best_chunk_index(t_stack *stack, size_t min, size_t max)
 	offset = 0;
 	while ((size_t)offset < stack->size)
 	{
-		top_idx = stack->size - 1 - offset;
-		bot_idx = offset;
+		top_idx = offset;
+		bot_idx = stack->size - 1 - offset;
 		if (stack->arr[top_idx] >= (int)min
 			&& stack->arr[top_idx] <= (int)max)
 			return (top_idx);
@@ -40,10 +40,10 @@ void	rotate_stack_a_to_top(t_stack *stack_a, size_t index,
 	size_t	ra_cost;
 	size_t	rra_cost;
 
-	if (index == stack_a->size - 1)
+	if (index == 0)
 		return ;
-	ra_cost = stack_a->size - 1 - index;
-	rra_cost = index + 1;
+	ra_cost = index;
+	rra_cost = stack_a->size - index;
 	if (ra_cost <= rra_cost)
 		while (ra_cost--)
 			ra(stack_a, bench);
@@ -72,7 +72,7 @@ void	push_chunk_range(t_stack *stack_a, t_stack *stack_b,
 		if (stack_b->size > 1)
 		{
 			chunk_mid = range.start + (range.end - range.start) / 2;
-			if (stack_b->arr[stack_b->size - 1] <= (int)chunk_mid)
+			if (stack_b->arr[0] <= (int)chunk_mid)
 				rb(stack_b, bench);
 		}
 	}
@@ -116,10 +116,10 @@ void	pull_back_stack_b(t_stack *stack_a, t_stack *stack_b,
 			max_index = i;
 		i++;
 	}
-	if (max_index != stack_b->size - 1)
+	if (max_index != 0)
 	{
-		ra_cost = stack_b->size - 1 - max_index;
-		rra_cost = max_index + 1;
+		ra_cost = max_index;
+		rra_cost = stack_b->size - max_index;
 		if (ra_cost <= rra_cost)
 			while (ra_cost--)
 				rb(stack_b, bench);

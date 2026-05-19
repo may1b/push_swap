@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:58:26 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/19 12:34:30 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/19 13:28:02 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static bool	swap(t_stack *stack)
 
 	if (stack->size < 2)
 		return (false);
-	tmp = stack->arr[stack->size - 1];
-	stack->arr[stack->size - 1] = stack->arr[stack->size - 2];
-	stack->arr[stack->size - 2] = tmp;
+	tmp = stack->arr[0];
+	stack->arr[0] = stack->arr[1];
+	stack->arr[1] = tmp;
 	return (true);
 }
 
@@ -29,7 +29,11 @@ static bool	push(t_stack *from, t_stack *to)
 {
 	if (!from->size)
 		return (false);
-	to->arr[to->size++] = from->arr[--(from->size)];
+	ft_memmove(to->arr + 1, to->arr, to->size * sizeof(int));
+	to->arr[0] = from->arr[0];
+	to->size++;
+	ft_memmove(from->arr, from->arr + 1, (from->size - 1) * sizeof(int));
+	from->size--;
 	return (true);
 }
 
@@ -39,7 +43,7 @@ static bool	shift(t_stack *stack, bool reverse)
 
 	if (!stack->size)
 		return (false);
-	if (reverse)
+	if (!reverse)
 	{
 		tmp = stack->arr[0];
 		ft_memmove(stack->arr, stack->arr + 1, (stack->size - 1) * sizeof(int));

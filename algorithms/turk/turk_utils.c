@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   turk_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 22:28:48 by magrass           #+#    #+#             */
-/*   Updated: 2026/05/15 22:28:48 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/19 13:28:35 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ int	cost_to_top(size_t i, size_t size)
 	int	fwd;
 	int	rev;
 
-	fwd = (int)(size - 1 - i);
-	rev = -(int)i;
+	// with top at arr[0], forward rotations (ra) move index down by 1
+	fwd = (int)i;
+	rev = -(int)(size - i);
 	if (fwd <= -rev)
 		return (fwd);
 	return (rev);
