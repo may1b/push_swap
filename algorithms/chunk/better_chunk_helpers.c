@@ -84,7 +84,7 @@ void	push_all_chunks(t_stack *stack_a, t_stack *stack_b,
 	size_t			n;
 	size_t			chunk_size;
 	size_t			chunk_start;
-	t_chunk_range		range;
+	t_chunk_range	range;
 
 	n = stack_a->size;
 	chunk_size = (n + num_chunks - 1) / num_chunks;

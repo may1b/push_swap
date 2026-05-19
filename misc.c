@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/08 11:14:14 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/18 09:47:41 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/19 13:32:19 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ bool	has_dup(t_stack *numb)
 	}
 	return (false);
 }
+
 float	disorder(t_stack *stack)
 {
 	size_t	i;
@@ -63,4 +64,3 @@ float	disorder(t_stack *stack)
 	}
 	return ((float)mistakes / total_pairs);
 }
-

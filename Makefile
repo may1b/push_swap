@@ -8,10 +8,10 @@ LIBFT_DIR	= libft
 LIBFT		= $(LIBFT_DIR)/libft.a
 
 OBJ_DIR		= obj
-SRCS	= push_swap.c input.c misc.c stack.c sorting_alg.c alloc.c sv.c \
+SRCS	= push_swap.c input.c misc.c stack.c alloc.c sv.c \
 		  algorithms/turk/turk.c algorithms/turk/helpers.c \
 		  algorithms/turk/turk_utils.c algorithms/turk/turk_target.c \
-		  algorithms/turk/turk_ops.c \
+		  algorithms/turk/turk_ops.c algorithms/bubble/bubble.c \
 		  bench.c libftprintf.a algorithms/chunk/better_chunk.c algorithms/chunk/better_chunk_helpers.c # ! HELLO I AM FOR NOW SO IT WORKS WITH MY FT_PRINTF AND NOT THE STD C ONE
 OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
 

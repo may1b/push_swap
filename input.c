@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 17:05:29 by magrass           #+#    #+#             */
-/*   Updated: 2026/05/19 13:23:59 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/19 13:46:56 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ static void	push_token(t_sv token, t_stack *stack, t_args *args)
 		alg = sv_parse_alg(token);
 		if (alg == ARG_NONE)
 			error_fun(EINVAL);
-		if (((alg == ARG_BENCH && args->bench_on) ||
-			(alg != ARG_BENCH && args->algorithm != ARG_NONE)))
+		if (((alg == ARG_BENCH && args->bench_on)
+				|| (alg != ARG_BENCH && args->algorithm != ARG_NONE)))
 			error_fun(EINVAL);
 		if (alg == ARG_BENCH)				// * ADDED BENCH SUPPORT
 			args->bench_on = true;
@@ -128,31 +128,34 @@ t_stack	parse_input(int argc, char **argv, t_args *args)
 	return (stack);
 }
 
-size_t  count_numbers(char **argv, int argc)
+size_t	count_numbers(char **argv, int argc)
 {
-    size_t  count;
-    size_t  i;
-    char    *tmp;
+	size_t	count;
+	size_t	i;
+	char	*tmp;
 
-    count = 0;
-    i = 1;
-    while (i < (size_t)argc)
-    {
-        tmp = argv[i];
-        while (*tmp)
-        {
-            while (*tmp == ' ') tmp++;
-            if (*tmp) count++;
-            while (*tmp && *tmp != ' ') tmp++;
-        }
-        i++;
-    }
-    return (count);
+	count = 0;
+	i = 1;
+	while (i < (size_t)argc)
+	{
+		tmp = argv[i];
+		while (*tmp)
+		{
+			while (*tmp == ' ')
+				tmp++;
+			if (*tmp)
+				count++;
+			while (*tmp && *tmp != ' ')
+				tmp++;
+		}
+		i++;
+	}
+	return (count);
 }
 
 void	ranking(t_stack *stack)
 {
-	int	rank;
+	int		rank;
 	size_t	i;
 	size_t	j;
 	int		*original;

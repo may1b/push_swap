@@ -6,7 +6,7 @@
 /*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:25:10 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/19 12:29:20 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/19 13:46:56 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,11 +159,11 @@ void	chunk_sort(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
 void	better_chunk_sort(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
 size_t	find_best_chunk_index(t_stack *stack, size_t min, size_t max);
 void	rotate_stack_a_to_top(t_stack *stack_a, size_t index,
-	t_bench *bench);
+			t_bench *bench);
 void	push_chunk_range(t_stack *stack_a, t_stack *stack_b,
-	t_chunk_range range, t_bench *bench);
+			t_chunk_range range, t_bench *bench);
 void	push_all_chunks(t_stack *stack_a, t_stack *stack_b,
-	size_t num_chunks, t_bench *bench);
+			size_t num_chunks, t_bench *bench);
 void	pull_back_stack_b(t_stack *stack_a, t_stack *stack_b,
-	t_bench *bench);
+			t_bench *bench);
 #endif
