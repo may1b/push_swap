@@ -7,12 +7,15 @@ CFLAGS_DBG	= -Wall -Wextra -g3 -fsanitize=address,undefined
 LIBFT_DIR	= libft
 LIBFT		= $(LIBFT_DIR)/libft.a
 
+FT_PRINTF_DIR	= ft_printf
+FT_PRINTF	= $(FT_PRINTF_DIR)/libftprintf.a
+
 OBJ_DIR		= obj
 SRCS	= push_swap.c input.c misc.c stack.c alloc.c sv.c \
 		  algorithms/turk/turk.c algorithms/turk/helpers.c \
 		  algorithms/turk/turk_utils.c algorithms/turk/turk_target.c \
 		  algorithms/turk/turk_ops.c algorithms/bubble/bubble.c \
-		  bench.c libftprintf.a algorithms/chunk/better_chunk.c  # ! HELLO I AM FOR NOW SO IT WORKS WITH MY FT_PRINTF AND NOT THE STD C ONE
+		  bench.c algorithms/chunk/better_chunk.c algorithms/lis/lis_sort.c
 OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # --- benchmark config (node bench.js) ---
@@ -23,11 +26,14 @@ NODE		?= node
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+$(NAME): $(LIBFT) $(FT_PRINTF) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(FT_PRINTF) -o $(NAME)
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
+
+$(FT_PRINTF):
+	$(MAKE) -C $(FT_PRINTF_DIR)
 
 $(OBJ_DIR)/%.o: %.c push_swap.h | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
@@ -41,10 +47,12 @@ debug: fclean $(NAME)
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
+	$(MAKE) -C $(FT_PRINTF_DIR) clean
 	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
+	$(MAKE) -C $(FT_PRINTF_DIR) fclean
 	rm -f $(NAME)
 
 re: fclean all
