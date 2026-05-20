@@ -6,7 +6,7 @@
 /*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 00:00:00 by magrass           #+#    #+#             */
-/*   Updated: 2026/05/20 16:14:43 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/20 16:17:33 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ static void	k_push_to_b(t_stack *a, t_stack *b, t_bench *bench)
 	size_t	limit;
 
 	range = ft_sqrt_k(a->size) + 1;
-	if (a->size >= 500)
-		range = 29;
 	while (a->size)
 	{
 		limit = b->size + range;
