@@ -5,6 +5,8 @@
 //   -r, --runs        runs per size     (default: 20)
 //   -s, --sizes       comma list        (default: 5,100,500)
 //   -d, --disorders   disorder levels 0–1, comma list (default: 0,0.25,0.5,1)
+//   -c, --checker     path to checker_linux (default: ./checker_linux)
+//   --no-checker      skip checker validation
 //   --save FILE       save results JSON
 //   --compare FILE    compare with saved JSON
 //   --json            raw JSON output only
@@ -73,6 +75,8 @@ function parseArgs(argv) {
     runs:      20,
     sizes:     [5, 100, 500],
     disorders: [0, 0.25, 0.5, 1],
+    checker:   './checker_linux',
+    check:     true,
     save:      null,
     compare:   null,
     json:      false,
@@ -91,6 +95,8 @@ function parseArgs(argv) {
     else if ((a === '-d' || a === '--disorders') && args[i+1]) {
       opts.disorders = args[++i].split(',').map(Number).filter(n => n >= 0 && n <= 1);
     }
+    else if ((a === '-c' || a === '--checker')    && args[i+1]) { opts.checker   = args[++i]; }
+    else if (a === '--no-checker')      { opts.check = false; }
     else if (a === '--save'    && args[i+1]) { opts.save    = args[++i]; }
     else if (a === '--compare' && args[i+1]) { opts.compare = args[++i]; }
   }
@@ -106,9 +112,11 @@ ${bold('USAGE')}
 
 ${bold('OPTIONS')}
   -b, --binary    <path>      path to push_swap binary      ${gry('(default: ./push_swap)')}
+  -c, --checker   <path>      path to checker_linux         ${gry('(default: ./checker_linux)')}
   -r, --runs      <n>         runs per size                 ${gry('(default: 20)')}
   -s, --sizes     <a,b,c>     input sizes to test           ${gry('(default: 5,100,500)')}
   -d, --disorders <a,b,c>     disorder levels 0–1           ${gry('(default: 0,0.25,0.5,1)')}
+  --no-checker                skip checker validation
   --save   <file>             save results to JSON file
   --compare <file>            compare current run against saved JSON
   --json                      output raw JSON (no colours)
@@ -154,14 +162,27 @@ function disorderLabel(d) {
 }
 
 // ─── RUN push_swap ────────────────────────────────────────────────────────────
-function runOnce(binary, nums) {
+function runOnce(binary, checker, nums) {
   const args = nums.map(String);
   const result = spawnSync(binary, args, { encoding: 'utf8' });
   if (result.status !== 0 && result.stderr && result.stderr.includes('ERROR')) {
-    return null;
+    return { ok: false, error: 'push_swap returned ERROR' };
+  }
+  if (result.status !== 0) {
+    return { ok: false, error: `push_swap exited with status ${result.status}` };
+  }
+  if (checker) {
+    const check = spawnSync(checker, args, { input: result.stdout, encoding: 'utf8' });
+    if (check.status !== 0 || check.stdout.trim() !== 'OK') {
+      return {
+        ok: false,
+        error: `checker returned ${JSON.stringify(check.stdout.trim() || check.stderr.trim() || `status ${check.status}`)}`,
+        nums,
+      };
+    }
   }
   const ops = result.stdout.trim() === '' ? 0 : result.stdout.trim().split('\n').length;
-  return ops;
+  return { ok: true, ops };
 }
 
 // ─── STATISTICS ───────────────────────────────────────────────────────────────
@@ -300,6 +321,12 @@ async function main() {
     console.error(gry('  run  make  first, or pass  -b <path>'));
     process.exit(1);
   }
+  const checker = opts.check ? path.resolve(opts.checker) : null;
+  if (checker && !fs.existsSync(checker)) {
+    console.error(red(`  checker not found: ${checker}`));
+    console.error(gry('  pass  -c <path>  or use  --no-checker'));
+    process.exit(1);
+  }
 
   // load comparison baseline
   let baseline = null;
@@ -329,12 +356,16 @@ async function main() {
       const prog = opts.json ? null : makeProgress(opts.runs, progLabel);
       for (let i = 0; i < opts.runs; i++) {
         const nums = generateInput(size, disorder);
-        const ops  = runOnce(binary, nums);
-        if (ops === null) {
-          if (!opts.json) { prog.done(); console.error(red('  push_swap returned ERROR – aborting this size')); }
+        const result = runOnce(binary, checker, nums);
+        if (!result.ok) {
+          if (!opts.json) {
+            prog.done();
+            console.error(red(`  ${result.error} - aborting this size`));
+            if (result.nums) console.error(gry(`  input: ${result.nums.join(' ')}`));
+          }
           break;
         }
-        raw.push(ops);
+        raw.push(result.ops);
         if (prog) prog.tick();
       }
       if (prog) prog.done();

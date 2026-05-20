@@ -87,21 +87,6 @@ typedef struct s_arena
 	size_t			default_capacity;
 }	t_arena;
 
-typedef struct s_chunk_range
-{
-	size_t	start;
-	size_t	end;
-}	t_chunk_range;
-
-typedef struct s_chunk_state
-{
-	size_t	n;
-	size_t	size;
-	size_t	start;
-	size_t	end;
-	size_t	mid;
-}	t_chunk_state;
-
 t_arena	*arena_new(size_t capacity);
 void	*arena_alloc(t_arena *a, size_t size);
 void	arena_destroy(t_arena *a);
@@ -143,7 +128,6 @@ void	bubble_sort(t_stack *stack_a, t_bench *bench);
 void	partial_bubble(t_stack *a, t_bench *bench, size_t max_passes);
 void	turk_sort(t_stack *a, t_stack *b, t_bench *bench);
 void	lis_sort(t_stack *a, t_stack *b, t_bench *bench);
-void	radix_sort(t_stack *a, t_stack *b, t_bench *bench);
 void	small_sort(t_stack *a, t_stack *b, t_bench *bench);
 void	k_sort(t_stack *a, t_stack *b, t_bench *bench);
 void	ranking(t_stack *stack);
@@ -159,21 +143,4 @@ bool	k_pull_pair_if_cheaper(t_stack *a, t_stack *b, t_bench *bench);
 void	lis_mark(t_stack *a, bool keep[MAX_SIZE]);
 size_t	lis_target_successor(t_stack *a, int val);
 int		lis_move_cost(int a_cost, int b_cost);
-
-void	chunk_sort(t_stack *stack_a, t_stack *stack_b, t_bench *bench);
-void	better_chunk_sort(t_stack *stack_a, t_stack *stack_b, t_bench *bench,
-			float disorder);
-size_t	find_best_chunk_index(t_stack *stack, size_t min, size_t max);
-void	rotate_stack_a_to_top(t_stack *stack_a, size_t index,
-			t_bench *bench);
-void	push_chunk_range(t_stack *stack_a, t_stack *stack_b,
-			t_chunk_range range, t_bench *bench);
-void	push_all_chunks(t_stack *stack_a, t_stack *stack_b,
-			size_t num_chunks, t_bench *bench);
-void	pull_back_stack_b(t_stack *stack_a, t_stack *stack_b,
-			t_bench *bench);
-size_t	chunk_sqrt(size_t n);
-void	set_chunk(t_chunk_state *chunk, size_t i, size_t num_chunks);
-void	push_one_chunk(t_stack *a, t_stack *b, t_chunk_state chunk,
-			t_bench *bench);
 #endif

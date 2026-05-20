@@ -19,9 +19,11 @@ node bench.js [options]
 | Flag | Default | Description |
 |---|---|---|
 | `-b, --binary <path>` | `./push_swap` | Path to the push_swap binary |
+| `-c, --checker <path>` | `./checker_linux` | Path to the checker binary used to validate each run |
 | `-r, --runs <n>` | `20` | How many random inputs to test per size |
 | `-s, --sizes <a,b,c>` | `5,100,500` | Which input sizes to test (see below) |
 | `-d, --disorders <a,b,c>` | `0,0.25,0.5,1` | How shuffled each input is, from 0 (sorted) to 1 (fully random) |
+| `--no-checker` | — | Skip checker validation |
 | `--save <file>` | — | Save results to a JSON file for later comparison |
 | `--compare <file>` | — | Compare this run against a previously saved JSON |
 | `--json` | — | Print raw JSON output only (no colours, no tables) |
@@ -38,6 +40,8 @@ For example, `--sizes 3,50,250` will run three separate benchmark groups:
 - one group where each test feeds push_swap **250 integers**
 
 Within each group the tool runs `--runs` independent tests (each with a freshly shuffled random input), counts the number of operations push_swap outputs, and computes statistics over those counts.
+
+By default, each operation stream is also piped through `checker_linux` with the same input. If checker returns anything other than `OK`, the benchmark aborts that size and prints the failing input.
 
 The default sizes `5,100,500` match the three graded inputs in the 42 push_swap subject, so the tool can also show you the corresponding grade band (5/5, 4/5, …) for each one.
 
