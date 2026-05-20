@@ -22,6 +22,11 @@ static size_t	radix_bits(size_t n)
 	return (bits);
 }
 
+static bool	has_bit(int value, size_t bit)
+{
+	return (((value >> bit) & 1) != 0);
+}
+
 void	radix_sort(t_stack *a, t_stack *b, t_bench *bench)
 {
 	size_t	bits;
@@ -39,7 +44,7 @@ void	radix_sort(t_stack *a, t_stack *b, t_bench *bench)
 		i = 0;
 		while (i++ < n)
 		{
-			if ((a->arr[0] >> bit) & 1)
+			if (has_bit(a->arr[0], bit))
 				ra(a, bench);
 			else
 				pb(a, b, bench);
