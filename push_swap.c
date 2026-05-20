@@ -43,10 +43,8 @@ static void	run_sort(t_data *d)
 	}
 	else if (alg == ARG_ADAPTIVE)
 		lis_sort(&d->stack_a, &d->stack_b, &d->bench);
-	else if (alg == ARG_MEDIUM)
-		k_sort(&d->stack_a, &d->stack_b, &d->bench);
 	else
-		turk_sort(&d->stack_a, &d->stack_b, &d->bench);
+		k_sort(&d->stack_a, &d->stack_b, &d->bench);
 }
 
 int	main(int argc, char **argv)

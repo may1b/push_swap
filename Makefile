@@ -13,10 +13,7 @@ FT_PRINTF	= $(FT_PRINTF_DIR)/libftprintf.a
 OBJ_DIR		= obj
 SRCS	= push_swap.c input.c input_utils.c misc.c stack.c stack_ops.c \
 		  stack_rotate.c stack_rotate2.c sv.c \
-		  sort_utils.c rotate_cost.c \
-		  algorithms/turk/turk.c algorithms/turk/helpers.c \
-		  algorithms/turk/turk_utils.c algorithms/turk/turk_target.c \
-		  algorithms/turk/turk_ops.c algorithms/bubble/bubble.c \
+		  sort_utils.c rotate_cost.c algorithms/bubble/bubble.c \
 		  bench.c algorithms/lis/lis_sort.c algorithms/lis/lis_helpers.c \
 		  algorithms/small/small_sort.c \
 		  algorithms/k/k_sort.c algorithms/k/k_helpers.c
