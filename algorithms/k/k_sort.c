@@ -6,7 +6,7 @@
 /*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 00:00:00 by magrass           #+#    #+#             */
-/*   Updated: 2026/05/19 00:00:00 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/20 16:14:43 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,12 @@ static size_t	ft_sqrt_k(size_t n)
 	return (i - 1);
 }
 
-/*
-** Pushes all values from a to b in chunks of about 1.3 * sqrt(n).
-** The 13 / 10 factor keeps this integer-only while widening each chunk
-** slightly, which reduces repeated rotations through a. The +1 keeps the
-** range non-zero for tiny inputs. For 500+ values, the range is capped at 29
-** because wider chunks made large random inputs perform worse in practice.
-*/
 static void	k_push_to_b(t_stack *a, t_stack *b, t_bench *bench)
 {
 	size_t	range;
 	size_t	limit;
 
-	range = ft_sqrt_k(a->size) * 13 / 10 + 1;
+	range = ft_sqrt_k(a->size) + 1;
 	if (a->size >= 500)
 		range = 29;
 	while (a->size)
