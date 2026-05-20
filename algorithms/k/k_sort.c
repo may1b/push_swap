@@ -22,6 +22,13 @@ static size_t	ft_sqrt_k(size_t n)
 	return (i - 1);
 }
 
+/*
+** Pushes all values from a to b in chunks of about 1.3 * sqrt(n).
+** The 13 / 10 factor keeps this integer-only while widening each chunk
+** slightly, which reduces repeated rotations through a. The +1 keeps the
+** range non-zero for tiny inputs. For 500+ values, the range is capped at 29
+** because wider chunks made large random inputs perform worse in practice.
+*/
 static void	k_push_to_b(t_stack *a, t_stack *b, t_bench *bench)
 {
 	size_t	range;
