@@ -36,6 +36,7 @@ typedef enum e_arg
 	ARG_NONE,
 	ARG_SIMPLE,
 	ARG_MEDIUM,
+	ARG_COMPLEX,
 	ARG_ADAPTIVE,
 	ARG_BENCH,
 }	t_arg;
@@ -124,10 +125,10 @@ void	push_token(t_sv token, t_stack *stack, t_args *args);
 float	disorder(t_stack *stack);
 bool	has_dup(t_stack *numb);
 void	bubble_sort(t_stack *stack_a, t_bench *bench);
-void	partial_bubble(t_stack *a, t_bench *bench, size_t max_passes);
 void	lis_sort(t_stack *a, t_stack *b, t_bench *bench);
 void	small_sort(t_stack *a, t_stack *b, t_bench *bench);
 void	k_sort(t_stack *a, t_stack *b, t_bench *bench);
+void	radix_sort(t_stack *a, t_stack *b, t_bench *bench);
 void	ranking(t_stack *stack);
 int		ps_abs(int n);
 int		ps_cost_to_top(size_t i, size_t size);

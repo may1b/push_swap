@@ -58,28 +58,6 @@ static size_t	bubble_sort_pass(t_stack *a, bool (*rotate)(t_stack *,
 	return (swaps);
 }
 
-void	partial_bubble(t_stack *a, t_bench *bench, size_t max_passes)
-{
-	size_t	pass;
-	size_t	swaps;
-	size_t	i;
-
-	pass = 0;
-	i = 0;
-	while (i < max_passes)
-	{
-		swaps = bubble_sort_pass(a, ra, a->size - 1 - pass, bench);
-		if (swaps == 0)
-			return ;
-		pass++;
-		swaps = bubble_sort_pass(a, rra, a->size - 1 - pass, bench);
-		if (swaps == 0)
-			return ;
-		pass++;
-		i++;
-	}
-}
-
 void	bubble_sort(t_stack *stack_a, t_bench *bench)
 {
 	size_t	pass;

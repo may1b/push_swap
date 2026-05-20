@@ -21,7 +21,7 @@ static t_arg	choose_sort(t_data *d)
 		return (alg);
 	if (d->stack_a.size <= 5)
 		return (ARG_SIMPLE);
-	if (d->bench.disorder < 0.35f)
+	if (d->bench.disorder < 0.2f)
 		return (ARG_ADAPTIVE);
 	return (ARG_MEDIUM);
 }
@@ -43,6 +43,8 @@ static void	run_sort(t_data *d)
 	}
 	else if (alg == ARG_ADAPTIVE)
 		lis_sort(&d->stack_a, &d->stack_b, &d->bench);
+	else if (alg == ARG_COMPLEX)
+		radix_sort(&d->stack_a, &d->stack_b, &d->bench);
 	else
 		k_sort(&d->stack_a, &d->stack_b, &d->bench);
 }

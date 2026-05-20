@@ -55,6 +55,8 @@ static int	sv_parse_alg(t_sv t)
 		return (ARG_SIMPLE);
 	if (sv_eq(t, "--medium"))
 		return (ARG_MEDIUM);
+	if (sv_eq(t, "--complex"))
+		return (ARG_COMPLEX);
 	if (sv_eq(t, "--adaptive"))
 		return (ARG_ADAPTIVE);
 	if (sv_eq(t, "--bench"))

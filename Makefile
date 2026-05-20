@@ -16,7 +16,8 @@ SRCS	= push_swap.c input.c input_utils.c misc.c stack.c stack_ops.c \
 		  sort_utils.c rotate_cost.c algorithms/bubble/bubble.c \
 		  bench.c algorithms/lis/lis_sort.c algorithms/lis/lis_helpers.c \
 		  algorithms/small/small_sort.c \
-		  algorithms/k/k_sort.c algorithms/k/k_helpers.c
+		  algorithms/k/k_sort.c algorithms/k/k_helpers.c \
+		  algorithms/radix/radix_sort.c
 OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 # --- benchmark config (node bench.js) ---
