@@ -12,32 +12,82 @@
 
 #include "push_swap.h"
 
-static void	print_bench_ops(t_bench bench)
+static void	bench_putstr(char *str)
 {
-	ft_printf("[bench] sa:\t%u\tsb:\t%u\tss:\t%u\tpa:\t%u\tpb:\t%u\n",
-		bench.sa, bench.sb, bench.ss, bench.pa, bench.pb);
-	ft_printf("[bench] ra:\t%u\trb:\t%u\trr:\t%u\t"
-		"rra:\t%u\trrb:\t%u\trrr:\t%u\n",
-		bench.ra, bench.rb, bench.rr, bench.rra, bench.rrb, bench.rrr);
+	ft_putstr_fd(str, ERROR_OUT);
 }
 
-void	print_bench_report(t_bench bench)
+static void	bench_putuint(unsigned int n)
+{
+	if (n >= 10)
+		bench_putuint(n / 10);
+	ft_putchar_fd((n % 10) + '0', ERROR_OUT);
+}
+
+static void	print_bench_percent(float disorder)
 {
 	int	whole;
 	int	dec;
 
-	whole = (int)(bench.disorder * 100);
-	dec = (int)(((bench.disorder * 100) - whole) * 100 + 0.5f);
+	whole = (int)(disorder * 100);
+	dec = (int)(((disorder * 100) - whole) * 100 + 0.5f);
+	if (dec == 100)
+	{
+		whole++;
+		dec = 0;
+	}
+	bench_putstr("[bench] disorder:\t");
+	bench_putuint((unsigned int)whole);
+	bench_putstr(".");
+	if (dec < 10)
+		bench_putstr("0");
+	bench_putuint((unsigned int)dec);
+	bench_putstr("%\n");
+}
+
+static void	print_bench_op(char *name, unsigned int count, bool end)
+{
+	bench_putstr(name);
+	bench_putstr(":\t");
+	bench_putuint(count);
+	if (end)
+		bench_putstr("\n");
+	else
+		bench_putstr("\t");
+}
+
+static void	print_bench_ops(t_bench bench)
+{
+	bench_putstr("[bench] ");
+	print_bench_op("sa", bench.sa, false);
+	print_bench_op("sb", bench.sb, false);
+	print_bench_op("ss", bench.ss, false);
+	print_bench_op("pa", bench.pa, false);
+	print_bench_op("pb", bench.pb, true);
+	bench_putstr("[bench] ");
+	print_bench_op("ra", bench.ra, false);
+	print_bench_op("rb", bench.rb, false);
+	print_bench_op("rr", bench.rr, false);
+	print_bench_op("rra", bench.rra, false);
+	print_bench_op("rrb", bench.rrb, false);
+	print_bench_op("rrr", bench.rrr, true);
+}
+
+void	print_bench_report(t_bench bench)
+{
 	bench.total = bench.pa + bench.pb + bench.ra + bench.rb + bench.rr
 		+ bench.rra + bench.rrb + bench.rrr + bench.sa + bench.sb + bench.ss;
-	ft_printf("------------------------------------------------------------\n");
-	ft_printf("[bench] disorder:\t");
-	if (dec < 10)
-		ft_printf("%d.0%d%%\n", whole, dec);
-	else
-		ft_printf("%d.%d%%\n", whole, dec);
-	ft_printf("[bench] strategy:\t%s\n", bench.strategy);
-	ft_printf("[bench] total_ops:\t%u\n", bench.total);
+	bench_putstr("------------------------------------------------------------\n");
+	print_bench_percent(bench.disorder);
+	bench_putstr("[bench] strategy:\t");
+	bench_putstr(bench.strategy);
+	bench_putstr("\n");
+	bench_putstr("[bench] complexity:\t");
+	bench_putstr(bench.complexity);
+	bench_putstr("\n");
+	bench_putstr("[bench] total_ops:\t");
+	bench_putuint(bench.total);
+	bench_putstr("\n");
 	print_bench_ops(bench);
-	ft_printf("------------------------------------------------------------\n");
+	bench_putstr("------------------------------------------------------------\n");
 }

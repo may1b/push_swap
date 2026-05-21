@@ -26,14 +26,48 @@ static t_arg	choose_sort(t_data *d)
 	return (ARG_MEDIUM);
 }
 
+static void	set_bench_strategy(t_data *d, t_arg alg)
+{
+	if (alg == ARG_SIMPLE && d->stack_a.size <= 5)
+	{
+		d->bench.strategy = "small sort";
+		d->bench.complexity = "O(1)";
+	}
+	else if (alg == ARG_SIMPLE)
+	{
+		d->bench.strategy = "bubble sort";
+		d->bench.complexity = "O(n^2)";
+	}
+	else if (alg == ARG_ADAPTIVE)
+	{
+		d->bench.strategy = "lis sort";
+		d->bench.complexity = "O(n^2)";
+	}
+	else if (alg == ARG_COMPLEX)
+	{
+		d->bench.strategy = "radix sort";
+		d->bench.complexity = "O(n log n)";
+	}
+	else if (alg == ARG_MEDIUM)
+	{
+		d->bench.strategy = "k sort";
+		d->bench.complexity = "O(n sqrt(n)) average";
+	}
+}
+
 static void	run_sort(t_data *d)
 {
 	t_arg	alg;
 
 	d->bench.disorder = disorder(&d->stack_a);
 	if (d->bench.disorder == 0.0f)
+	{
+		d->bench.strategy = "already sorted";
+		d->bench.complexity = "O(n^2) disorder check";
 		return ;
+	}
 	alg = choose_sort(d);
+	set_bench_strategy(d, alg);
 	if (alg == ARG_SIMPLE)
 	{
 		if (d->stack_a.size <= 5)
