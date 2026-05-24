@@ -11,7 +11,7 @@ FT_PRINTF_DIR	= ft_printf
 FT_PRINTF	= $(FT_PRINTF_DIR)/libftprintf.a
 
 OBJ_DIR		= obj
-SRCS	= push_swap.c input.c input_utils.c misc.c stack.c stack_ops.c \
+SRCS	= push_swap.c push_swap_init.c sort_dispatch.c input.c input_utils.c misc.c stack.c stack_ops.c \
 		  stack_rotate.c stack_rotate2.c sv.c \
 		  sort_utils.c rotate_cost.c algorithms/bubble/bubble.c \
 		  bench.c algorithms/lis/lis_sort.c algorithms/lis/lis_helpers.c \

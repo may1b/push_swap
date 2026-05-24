@@ -27,7 +27,7 @@ static bool	sv_is_number(t_sv token)
 	return (true);
 }
 
-static int	parse_int(t_sv token)
+static int	parse_int(t_sv token, t_stack *stack)
 {
 	long	n;
 	int		sign;
@@ -45,7 +45,10 @@ static int	parse_int(t_sv token)
 		n = n * 10 + (token.str[i++] - '0');
 	n *= sign;
 	if (n > INT_MAX || n < INT_MIN)
+	{
+		free(stack->arr);
 		error_fun(ERANGE);
+	}
 	return ((int)n);
 }
 
@@ -69,15 +72,21 @@ void	push_token(t_sv token, t_stack *stack, t_args *args)
 	int	alg;
 
 	if (sv_is_number(token))
-		stack->arr[stack->size++] = parse_int(token);
+		stack->arr[stack->size++] = parse_int(token, stack);
 	else
 	{
 		alg = sv_parse_alg(token);
 		if (alg == ARG_NONE)
+		{
+			free(stack->arr);
 			error_fun(EINVAL);
+		}
 		if (((alg == ARG_BENCH && args->bench_on)
 				|| (alg != ARG_BENCH && args->algorithm != ARG_NONE)))
+		{
+			free(stack->arr);
 			error_fun(EINVAL);
+		}
 		if (alg == ARG_BENCH)
 			args->bench_on = true;
 		else

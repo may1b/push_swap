@@ -83,7 +83,11 @@ void	lis_sort(t_stack *a, t_stack *b, t_bench *bench)
 	keep = malloc(sizeof(bool) * a->size);
 	if (!keep)
 		error_fun(ENOMEM);
-	lis_mark(a, keep);
+	if (!lis_mark(a, keep))
+	{
+		free(keep);
+		error_fun(ENOMEM);
+	}
 	push_non_lis(a, b, keep, bench);
 	free(keep);
 	while (b->size)

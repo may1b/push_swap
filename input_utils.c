@@ -82,7 +82,7 @@ static void	copy_original(t_stack *stack, int *original)
 	}
 }
 
-void	ranking(t_stack *stack)
+bool	ranking(t_stack *stack)
 {
 	int		rank;
 	size_t	i;
@@ -91,7 +91,7 @@ void	ranking(t_stack *stack)
 
 	original = malloc(sizeof(int) * stack->size);
 	if (!original)
-		error_fun(ENOMEM);
+		return (false);
 	copy_original(stack, original);
 	i = 0;
 	while (i < stack->size)
@@ -107,4 +107,5 @@ void	ranking(t_stack *stack)
 		stack->arr[i++] = rank;
 	}
 	free(original);
+	return (true);
 }

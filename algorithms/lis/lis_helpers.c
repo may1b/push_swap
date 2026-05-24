@@ -83,7 +83,7 @@ static void	fill_lis(t_stack *a, int *len, int *prev,
 	}
 }
 
-void	lis_mark(t_stack *a, bool *keep)
+bool	lis_mark(t_stack *a, bool *keep)
 {
 	int		*len;
 	int		*prev;
@@ -92,7 +92,11 @@ void	lis_mark(t_stack *a, bool *keep)
 	len = malloc(sizeof(int) * a->size);
 	prev = malloc(sizeof(int) * a->size);
 	if (!len || !prev)
-		error_fun(ENOMEM);
+	{
+		free(len);
+		free(prev);
+		return (false);
+	}
 	best_i = 0;
 	init_lis_row(a, keep, len, prev);
 	fill_lis(a, len, prev, &best_i);
@@ -105,4 +109,5 @@ void	lis_mark(t_stack *a, bool *keep)
 	}
 	free(len);
 	free(prev);
+	return (true);
 }
