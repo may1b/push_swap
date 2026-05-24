@@ -19,7 +19,7 @@ size_t	lis_target_successor(t_stack *a, int val)
 	int		best;
 
 	best_i = stack_min_index(a);
-	best = MAX_SIZE + 1;
+	best = INT_MAX;
 	i = 0;
 	while (i < a->size)
 	{
@@ -44,8 +44,7 @@ int	lis_move_cost(int a_cost, int b_cost)
 	return (ps_abs(a_cost) + ps_abs(b_cost));
 }
 
-static void	init_lis_row(t_stack *a, bool keep[MAX_SIZE], int len[MAX_SIZE],
-	int prev[MAX_SIZE])
+static void	init_lis_row(t_stack *a, bool *keep, int *len, int *prev)
 {
 	size_t	i;
 
@@ -59,7 +58,7 @@ static void	init_lis_row(t_stack *a, bool keep[MAX_SIZE], int len[MAX_SIZE],
 	}
 }
 
-static void	fill_lis(t_stack *a, int len[MAX_SIZE], int prev[MAX_SIZE],
+static void	fill_lis(t_stack *a, int *len, int *prev,
 	size_t *best_i)
 {
 	size_t	i;
@@ -84,12 +83,16 @@ static void	fill_lis(t_stack *a, int len[MAX_SIZE], int prev[MAX_SIZE],
 	}
 }
 
-void	lis_mark(t_stack *a, bool keep[MAX_SIZE])
+void	lis_mark(t_stack *a, bool *keep)
 {
-	int		len[MAX_SIZE];
-	int		prev[MAX_SIZE];
+	int		*len;
+	int		*prev;
 	size_t	best_i;
 
+	len = malloc(sizeof(int) * a->size);
+	prev = malloc(sizeof(int) * a->size);
+	if (!len || !prev)
+		error_fun(ENOMEM);
 	best_i = 0;
 	init_lis_row(a, keep, len, prev);
 	fill_lis(a, len, prev, &best_i);
@@ -100,4 +103,6 @@ void	lis_mark(t_stack *a, bool keep[MAX_SIZE])
 			break ;
 		best_i = (size_t)prev[best_i];
 	}
+	free(len);
+	free(prev);
 }

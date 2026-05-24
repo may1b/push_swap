@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 09:25:10 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/19 13:46:56 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/24 13:20:13 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,10 @@
 
 # define ERROR_OUT 2
 # define STAND_OUT 1
-# define MAX_SIZE 500
 
 typedef struct s_stack
 {
-	int		arr[MAX_SIZE];
+	int		*arr;
 	size_t	size;
 }	t_stack;
 
@@ -121,6 +120,7 @@ size_t	count_numbers(char **argv, int argc);
 
 t_stack	parse_input(int argc, char **argv, t_args *args);
 t_sv	next_token(const char *str, size_t *pos);
+void	parse_tokens(char **argv, int argc, t_stack *stack, t_args *args);
 void	push_token(t_sv token, t_stack *stack, t_args *args);
 float	disorder(t_stack *stack);
 bool	has_dup(t_stack *numb);
@@ -139,7 +139,7 @@ void	rotate_b_cost(t_stack *b, int cost, t_bench *bench);
 size_t	k_value_index(t_stack *b, int val);
 void	k_pull_max(t_stack *a, t_stack *b, t_bench *bench);
 bool	k_pull_pair_if_cheaper(t_stack *a, t_stack *b, t_bench *bench);
-void	lis_mark(t_stack *a, bool keep[MAX_SIZE]);
+void	lis_mark(t_stack *a, bool *keep);
 size_t	lis_target_successor(t_stack *a, int val);
 int		lis_move_cost(int a_cost, int b_cost);
 #endif

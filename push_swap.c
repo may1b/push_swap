@@ -89,11 +89,17 @@ int	main(int argc, char **argv)
 
 	d = (t_data){0};
 	d.stack_a = parse_input(argc, argv, &d.args);
+	if (d.stack_a.size)
+		d.stack_b.arr = malloc(sizeof(int) * d.stack_a.size);
+	if (d.stack_a.size && !d.stack_b.arr)
+		error_fun(ENOMEM);
 	if (has_dup(&d.stack_a))
 		error_fun(EINVAL);
 	ranking(&d.stack_a);
 	run_sort(&d);
 	if (d.args.bench_on)
 		print_bench_report(d.bench);
+	free(d.stack_a.arr);
+	free(d.stack_b.arr);
 	return (0);
 }

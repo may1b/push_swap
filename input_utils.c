@@ -50,6 +50,26 @@ size_t	count_numbers(char **argv, int argc)
 	return (count);
 }
 
+void	parse_tokens(char **argv, int argc, t_stack *stack, t_args *args)
+{
+	t_sv	token;
+	size_t	i;
+	size_t	j;
+
+	i = 1;
+	while (i < (size_t)argc)
+	{
+		j = 0;
+		while (argv[i][j])
+		{
+			token = next_token(argv[i], &j);
+			if (token.size)
+				push_token(token, stack, args);
+		}
+		i++;
+	}
+}
+
 static void	copy_original(t_stack *stack, int *original)
 {
 	size_t	i;

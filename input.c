@@ -88,24 +88,17 @@ void	push_token(t_sv token, t_stack *stack, t_args *args)
 t_stack	parse_input(int argc, char **argv, t_args *args)
 {
 	t_stack	stack;
-	t_sv	token;
-	size_t	i;
-	size_t	j;
+	size_t	count;
 
 	stack = (t_stack){0};
 	if (argc < 2)
 		error_fun(EINVAL);
-	i = 1;
-	while (i < (size_t)argc)
-	{
-		j = 0;
-		while (argv[i][j])
-		{
-			token = next_token(argv[i], &j);
-			if (token.size)
-				push_token(token, &stack, args);
-		}
-		i++;
-	}
+	count = count_numbers(argv, argc);
+	if (!count)
+		error_fun(EINVAL);
+	stack.arr = malloc(sizeof(int) * count);
+	if (!stack.arr)
+		error_fun(ENOMEM);
+	parse_tokens(argv, argc, &stack, args);
 	return (stack);
 }

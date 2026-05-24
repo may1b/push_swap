@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by ascheufe, magrass.*
+*This project has been created as part of the 42 curriculum by ascheufe and magrass.*
 
 # push_swap
 
@@ -45,25 +45,9 @@ make
 | `--simple`    | bubble / small   |
 | `--medium`    | k‑sort (chunk)   |
 | `--complex`   | radix sort       |
-| `--adaptive`  | LIS sort         |
-| `--bench`     | print benchmark  |
+| `--adaptive`  | most optimal     |
 
-### Benchmark
-
-```
-node bench.js [options]
-```
-
-| Option               | Description                        |
-|----------------------|------------------------------------|
-| `-b, --binary`       | path to `push_swap`                |
-| `-r, --runs`         | runs per size (default 20)         |
-| `-s, --sizes`        | sizes (default `5,100,500`)        |
-| `-d, --disorders`    | disorder levels (default `0,0.25,0.5,1`) |
-| `--no-checker`       | skip external checker validation   |
-| `--save FILE`        | save results as JSON               |
-| `--compare FILE`     | compare against saved JSON         |
-| `--json`             | raw JSON output                    |
+Pass `--bench` to print a per‑operation and strategy breakdown on stderr.
 
 ## Algorithms
 
@@ -98,7 +82,7 @@ zero swaps. The global minimum is rotated to the top at the end.
 Phase 1 — compute the **longest increasing subsequence** with classic
 O(n²) dynamic programming (`len[i]`, `prev[i]`).  The sequence is
 reconstructed and marked in `keep[]`.
-http://127.0.0.1:4096/
+
 Phase 2 — elements *not* in the LIS are pushed to `b`; LIS elements
 are rotated to the bottom of `a`.
 
@@ -107,8 +91,10 @@ element in `b` to find the cheapest insertion spot in `a`, using
 `rr`/`rrr` to share rotations when directions match.  Finally `a` is
 rotated so the global minimum sits on top.
 
-**Time:** O(n²) (DP + n greedy insertions).  **Space:** O(n) for DP
-arrays and `keep[]`.
+**Time:** O(n²) (DP + n greedy insertions).  
+
+**Space:** O(n) for
+the `keep`, `len`, and `prev` arrays (all dynamically allocated and freed).
 
 **Justification:** LIS is used only for low‑disorder inputs (d < 0.2).
 When the input is nearly sorted the LIS is already long, so few
@@ -121,11 +107,10 @@ disorder.
 **Files:** `algorithms/k/k_sort.c`, `algorithms/k/k_helpers.c`
 
 Phase 1 (distribution): elements are pushed from `a` to `b` in
-value‑range buckets of width `≈ 1.3·√n + 1` (capped at 29 for
-n ≥ 500).  Values below the current chunk are pushed and rotated
-(`pb` + `rb`), values inside the chunk are simply pushed, and larger
-values are rotated to the bottom of `a` (`ra`).  This partitions `b`
-into roughly √n ordered chunks.
+value‑range buckets of width `⌊√n⌋ + 1`.  Values below the current
+chunk are pushed and rotated (`pb` + `rb`), values inside the chunk
+are simply pushed, and larger values are rotated to the bottom of `a`
+(`ra`).  This partitions `b` into roughly √n ordered chunks.
 
 Phase 2 (reconstruction): elements are pulled back from `b` to `a` in
 descending order — always the next‑largest value — with separate
@@ -136,7 +121,7 @@ optimisations for adjacent top‑two pairs that save operations.
 **Justification:** k‑sort is the workhorse for non‑trivial inputs
 (d ≥ 0.2).  Its chunk‑based partitioning guarantees roughly √n
 buckets, and each element crosses the stacks at most O(√n) times on
-average.  The 42 reference for 500 elements is 5 500 operations —
+average.  The 42 reference for 500 elements is 5 000 operations —
 k‑sort stays well inside that bound (typically ~4 800 for fully random
 inputs).
 
@@ -145,7 +130,7 @@ inputs).
 **File:** `algorithms/radix/radix_sort.c`
 
 Binary least‑significant‑digit radix sort.  Because values have been
-ranked to `0 … n‑1`, exactly `⌈log₂ n⌉` bit passes are required.  Each
+ranked to `0 … n‑1`, exactly `⌈log2 n⌉` bit passes are required.  Each
 pass: elements whose current bit is 1 are rotated (`ra`), elements
 with bit 0 are pushed to `b` (`pb`).  After the pass all elements are
 pushed back (`pa`) before the next bit.
@@ -154,20 +139,20 @@ pushed back (`pa`) before the next bit.
 
 **Justification:** radix sort provides the required O(n log n) tier.
 It operates solely on ranked indices, so the number of passes is
-⌈log₂ n⌉ and each pass touches every element exactly once.  The
+⌈log2 n⌉ and each pass touches every element exactly once.  The
 constant factor is higher than k‑sort in practice because every pass
 re‑examines the entire stack, so it is not selected automatically —
 it is available explicitly via `--complex`.
 
 ### Adaptive strategy
 
-An **inversion‑based disorder** is computed in `misc.c:disorder()` as
+An disorder is computed in `misc.c` as
 the ratio of inverted index pairs to total pairs (0 = sorted,
 1 = reverse‑sorted).
 
 | Disorder   | Algorithm      | Complexity       |
 |------------|----------------|------------------|
-| d < 0.2    | LIS sort       | O(n²)            |
+| d < 0.2    | LIS sort       | O(n2)            |
 | d ≥ 0.2    | k‑sort         | O(n·√n) average  |
 
 **Thresholds rationale:**
@@ -191,23 +176,19 @@ covering all three asymptotic tiers required by the subject.
 
 ### Space
 
-Both stacks are fixed‑size arrays (`MAX_SIZE = 500`).  LIS sort uses
-a temporary `bool keep[MAX_SIZE]`.  No dynamic allocation beyond the
-initial stacks.  Total auxilliary space is O(n).
+Both stacks are dynamically allocated to exactly `n` elements
+(`stack_a.arr` in `parse_input()`, `stack_b.arr` in `main()`).  LIS
+sort allocates temporary `keep`, `len`, and `prev` arrays; ranking
+allocates a copy of the original input.  All allocations are freed
+before exit.  Total auxiliary space is O(n).
 
 ### Pre‑processing
 
 `ranking()` in `input_utils.c` replaces each value with its 0‑based
-rank in O(n²) time.  This lets chunk‑based and radix algorithms work
-with small, contiguous integers regardless of the original input range.
+rank in O(n²) time, using a dynamically allocated copy of the original
+input.  This lets chunk‑based and radix algorithms work with small,
+contiguous integers regardless of the original input range.
 
-## 42 grade bands
-
-| Size | 5/5     | 4/5     | 3/5     | 2/5     | 1/5     |
-|------|---------|---------|---------|---------|---------|
-| 5    | ≤ 12    | —       | —       | —       | —       |
-| 100  | ≤ 700   | ≤ 900   | ≤ 1 100 | ≤ 1 300 | ≤ 1 500 |
-| 500  | ≤ 5 500 | ≤ 7 000 | ≤ 8 500 | ≤ 10 000| ≤ 11 500 |
 
 ## Resources
 

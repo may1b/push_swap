@@ -30,7 +30,7 @@ static void	apply_insert(t_stack *a, t_stack *b, int cost[2], t_bench *bench)
 	rotate_b_cost(b, cost[1], bench);
 }
 
-static void	push_non_lis(t_stack *a, t_stack *b, bool keep[MAX_SIZE],
+static void	push_non_lis(t_stack *a, t_stack *b, bool *keep,
 	t_bench *bench)
 {
 	size_t	i;
@@ -56,7 +56,7 @@ static void	best_insert(t_stack *a, t_stack *b, t_bench *bench)
 	int		b_cost;
 	int		best_pair[2];
 
-	best = MAX_SIZE * 2;
+	best = (int)(a->size + b->size) * 2;
 	i = 0;
 	while (i < b->size)
 	{
@@ -76,12 +76,16 @@ static void	best_insert(t_stack *a, t_stack *b, t_bench *bench)
 
 void	lis_sort(t_stack *a, t_stack *b, t_bench *bench)
 {
-	bool	keep[MAX_SIZE];
+	bool	*keep;
 
 	if (a->size <= 1)
 		return ;
+	keep = malloc(sizeof(bool) * a->size);
+	if (!keep)
+		error_fun(ENOMEM);
 	lis_mark(a, keep);
 	push_non_lis(a, b, keep, bench);
+	free(keep);
 	while (b->size)
 		best_insert(a, b, bench);
 	rotate_a_cost(a, ps_cost_to_top(stack_min_index(a), a->size), bench);
