@@ -6,7 +6,7 @@
 /*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 21:12:55 by magrass           #+#    #+#             */
-/*   Updated: 2026/04/28 10:15:37 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/24 12:33:03 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define FT_PRINTF_H
 # include <stddef.h>
 
-typedef union u_arg {
+typedef union u_arg
+{
 	int		c;
 	char	buf[1000];
 	char	*str;

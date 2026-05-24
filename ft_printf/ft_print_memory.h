@@ -6,7 +6,7 @@
 /*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/26 21:29:36 by magrass           #+#    #+#             */
-/*   Updated: 2026/04/26 23:48:34 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/24 12:31:06 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 # include <unistd.h>
 # include <stdbool.h>
 # define HEX "0123456789abcdef"
-# define COLON :
 # define BSIZE 6
 # define OUT_FD 1
 # define ROW_SIZE 16
 # define STR_PTR_SIZE 16 // (sizeof(void *) / 4)
 
-typedef struct s_splitptr {
+typedef struct s_splitptr
+{
 	uint8_t	mem[8];
 }	t_splitptr;
 
