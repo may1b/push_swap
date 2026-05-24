@@ -45,7 +45,7 @@ make
 | `--simple`    | bubble / small   |
 | `--medium`    | k‑sort (chunk)   |
 | `--complex`   | radix sort       |
-| `--adaptive`  | most optimal     |
+| `--adaptive`  | automatic choice |
 
 Pass `--bench` to print a per‑operation and strategy breakdown on stderr.
 
@@ -150,10 +150,12 @@ An disorder is computed in `misc.c` as
 the ratio of inverted index pairs to total pairs (0 = sorted,
 1 = reverse‑sorted).
 
-| Disorder   | Algorithm      | Complexity       |
-|------------|----------------|------------------|
-| d < 0.2    | LIS sort       | O(n2)            |
-| d ≥ 0.2    | k‑sort         | O(n·√n) average  |
+| Input shape              | Algorithm      | Complexity       |
+|--------------------------|----------------|------------------|
+| n ≤ 5                    | small sort     | O(1)             |
+| d < 0.2                  | LIS sort       | O(n²)            |
+| n ≥ 1750 and d ≥ 0.45    | radix sort     | O(n log n)       |
+| otherwise                | k‑sort         | O(n·√n) average  |
 
 **Thresholds rationale:**
 
@@ -168,11 +170,11 @@ the ratio of inverted index pairs to total pairs (0 = sorted,
   O(n·√n) bound holds, and its practical counts for n = 500 random
   inputs are consistently inside the 5/5 grade band.
 
-The O(n log n) radix sort is implemented and verifiable via
-`--complex` but is not selected automatically because its operation
-count is higher than k‑sort’s on the same inputs.  The adaptive
-strategy prioritises operation‑count performance while still
-covering all three asymptotic tiers required by the subject.
+- **n ≥ 1750 and d ≥ 0.45 (large high disorder):** radix sort becomes
+  cheaper than k‑sort in operation count.  Below that crossover it is
+  still available explicitly via `--complex`, but the adaptive strategy
+  keeps using LIS/k‑sort because they produce fewer operations for the
+  usual input sizes.
 
 ### Space
 

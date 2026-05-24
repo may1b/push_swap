@@ -17,12 +17,14 @@ static t_arg	choose_sort(t_data *d)
 	t_arg	alg;
 
 	alg = d->args.algorithm;
-	if (alg != ARG_NONE)
+	if (alg != ARG_NONE && alg != ARG_ADAPTIVE)
 		return (alg);
 	if (d->stack_a.size <= 5)
 		return (ARG_SIMPLE);
 	if (d->bench.disorder < 0.2f)
 		return (ARG_ADAPTIVE);
+	if (d->stack_a.size >= 1750 && d->bench.disorder >= 0.45f)
+		return (ARG_COMPLEX);
 	return (ARG_MEDIUM);
 }
 
