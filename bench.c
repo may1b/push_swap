@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bench.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/14 09:46:46 by ascheufe          #+#    #+#             */
-/*   Updated: 2026/05/18 10:13:59 by ascheufe         ###   ########.fr       */
+/*   Updated: 2026/05/24 14:42:55 by magrass          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ void	print_bench_report(t_bench bench)
 {
 	bench.total = bench.pa + bench.pb + bench.ra + bench.rb + bench.rr
 		+ bench.rra + bench.rrb + bench.rrr + bench.sa + bench.sb + bench.ss;
-	ft_putstr_fd("------------------------------", ERROR_OUT);
-	ft_putstr_fd("------------------------------\n", ERROR_OUT);
 	print_bench_percent(bench.disorder);
 	ft_putstr_fd("[bench] strategy:\t", ERROR_OUT);
 	ft_putstr_fd(bench.strategy, ERROR_OUT);
@@ -85,6 +83,4 @@ void	print_bench_report(t_bench bench)
 	bench_putuint(bench.total);
 	ft_putstr_fd("\n", ERROR_OUT);
 	print_bench_ops(bench);
-	ft_putstr_fd("------------------------------", ERROR_OUT);
-	ft_putstr_fd("------------------------------\n", ERROR_OUT);
 }
