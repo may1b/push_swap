@@ -53,10 +53,12 @@ size_t	count_numbers(char **argv, int argc)
 void	parse_tokens(char **argv, int argc, t_stack *stack, t_args *args)
 {
 	t_sv	token;
+	bool	tail_arg;
 	size_t	i;
 	size_t	j;
 
 	i = 1;
+	tail_arg = false;
 	while (i < (size_t)argc)
 	{
 		j = 0;
@@ -64,7 +66,7 @@ void	parse_tokens(char **argv, int argc, t_stack *stack, t_args *args)
 		{
 			token = next_token(argv[i], &j);
 			if (token.size)
-				push_token(token, stack, args);
+				push_token(token, stack, args, &tail_arg);
 		}
 		i++;
 	}

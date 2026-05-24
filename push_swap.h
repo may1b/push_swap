@@ -121,7 +121,7 @@ size_t	count_numbers(char **argv, int argc);
 t_stack	parse_input(int argc, char **argv, t_args *args);
 t_sv	next_token(const char *str, size_t *pos);
 void	parse_tokens(char **argv, int argc, t_stack *stack, t_args *args);
-void	push_token(t_sv token, t_stack *stack, t_args *args);
+void	push_token(t_sv token, t_stack *stack, t_args *args, bool *tail_arg);
 float	disorder(t_stack *stack);
 bool	has_dup(t_stack *numb);
 void	bubble_sort(t_stack *stack_a, t_bench *bench);
