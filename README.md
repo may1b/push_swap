@@ -217,6 +217,9 @@ with small, contiguous integers regardless of the original input range.
 - [random article](https://medium.com/@dansylvain84/my-implementation-of-the-42-push-swap-project-2706fd8c2e9f)
 - [this thing](https://42-cursus.gitbook.io/guide/2-rank-02/push_swap)
 - [article that I wish I discovered before](https://dynamicdispat.ch/posts/2024/01/push-swap/)
+- [very helpful article and why LIS sort was used](https://codeforces.com/blog/entry/97703)
+- [Also helpful for understanding LIS sort](https://www.codecademy.com/article/longest-increasing-subsequence-lis-explained)
+- [k-sort (more regularly refered as Buket sort)](https://en.wikipedia.org/wiki/Bucket_sort)
 
 ### AI usage
 
