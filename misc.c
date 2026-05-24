@@ -14,7 +14,7 @@
 
 void	error_fun(int error)
 {
-	ft_putstr_fd("ERROR\n", ERROR_OUT);
+	ft_putstr_fd("Error\n", ERROR_OUT);
 	exit(error);
 }
 
