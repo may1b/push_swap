@@ -12,11 +12,6 @@
 
 #include "push_swap.h"
 
-static void	bench_putstr(char *str)
-{
-	ft_putstr_fd(str, ERROR_OUT);
-}
-
 static void	bench_putuint(unsigned int n)
 {
 	if (n >= 10)
@@ -36,35 +31,35 @@ static void	print_bench_percent(float disorder)
 		whole++;
 		dec = 0;
 	}
-	bench_putstr("[bench] disorder:\t");
+	ft_putstr_fd("[bench] disorder:\t", ERROR_OUT);
 	bench_putuint((unsigned int)whole);
-	bench_putstr(".");
+	ft_putstr_fd(".", ERROR_OUT);
 	if (dec < 10)
-		bench_putstr("0");
+		ft_putstr_fd("0", ERROR_OUT);
 	bench_putuint((unsigned int)dec);
-	bench_putstr("%\n");
+	ft_putstr_fd("%\n", ERROR_OUT);
 }
 
 static void	print_bench_op(char *name, unsigned int count, bool end)
 {
-	bench_putstr(name);
-	bench_putstr(":\t");
+	ft_putstr_fd(name, ERROR_OUT);
+	ft_putstr_fd(":\t", ERROR_OUT);
 	bench_putuint(count);
 	if (end)
-		bench_putstr("\n");
+		ft_putstr_fd("\n", ERROR_OUT);
 	else
-		bench_putstr("\t");
+		ft_putstr_fd("\t", ERROR_OUT);
 }
 
 static void	print_bench_ops(t_bench bench)
 {
-	bench_putstr("[bench] ");
+	ft_putstr_fd("[bench] ", ERROR_OUT);
 	print_bench_op("sa", bench.sa, false);
 	print_bench_op("sb", bench.sb, false);
 	print_bench_op("ss", bench.ss, false);
 	print_bench_op("pa", bench.pa, false);
 	print_bench_op("pb", bench.pb, true);
-	bench_putstr("[bench] ");
+	ft_putstr_fd("[bench] ", ERROR_OUT);
 	print_bench_op("ra", bench.ra, false);
 	print_bench_op("rb", bench.rb, false);
 	print_bench_op("rr", bench.rr, false);
@@ -77,17 +72,19 @@ void	print_bench_report(t_bench bench)
 {
 	bench.total = bench.pa + bench.pb + bench.ra + bench.rb + bench.rr
 		+ bench.rra + bench.rrb + bench.rrr + bench.sa + bench.sb + bench.ss;
-	bench_putstr("------------------------------------------------------------\n");
+	ft_putstr_fd("------------------------------", ERROR_OUT);
+	ft_putstr_fd("------------------------------\n", ERROR_OUT);
 	print_bench_percent(bench.disorder);
-	bench_putstr("[bench] strategy:\t");
-	bench_putstr(bench.strategy);
-	bench_putstr("\n");
-	bench_putstr("[bench] complexity:\t");
-	bench_putstr(bench.complexity);
-	bench_putstr("\n");
-	bench_putstr("[bench] total_ops:\t");
+	ft_putstr_fd("[bench] strategy:\t", ERROR_OUT);
+	ft_putstr_fd(bench.strategy, ERROR_OUT);
+	ft_putstr_fd("\n", ERROR_OUT);
+	ft_putstr_fd("[bench] complexity:\t", ERROR_OUT);
+	ft_putstr_fd(bench.complexity, ERROR_OUT);
+	ft_putstr_fd("\n", ERROR_OUT);
+	ft_putstr_fd("[bench] total_ops:\t", ERROR_OUT);
 	bench_putuint(bench.total);
-	bench_putstr("\n");
+	ft_putstr_fd("\n", ERROR_OUT);
 	print_bench_ops(bench);
-	bench_putstr("------------------------------------------------------------\n");
+	ft_putstr_fd("------------------------------", ERROR_OUT);
+	ft_putstr_fd("------------------------------\n", ERROR_OUT);
 }
