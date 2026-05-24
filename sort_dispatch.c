@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_dispatch.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: magrass <magrass@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: ascheufe <ascheufe@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/24 00:00:00 by magrass           #+#    #+#             */
-/*   Updated: 2026/05/24 00:00:00 by magrass          ###   ########.fr       */
+/*   Updated: 2026/05/24 14:35:04 by ascheufe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	set_bench_strategy(t_data *d, t_arg alg)
 	else if (alg == ARG_MEDIUM)
 	{
 		d->bench.strategy = "k sort";
-		d->bench.complexity = "O(n sqrt(n)) average";
+		d->bench.complexity = "O(n√n)";
 	}
 }
 
