@@ -7,9 +7,6 @@ CFLAGS_DBG	= -Wall -Wextra -g3 -fsanitize=address,undefined
 LIBFT_DIR	= libft
 LIBFT		= $(LIBFT_DIR)/libft.a
 
-FT_PRINTF_DIR	= ft_printf
-FT_PRINTF	= $(FT_PRINTF_DIR)/libftprintf.a
-
 OBJ_DIR		= obj
 SRCS	= push_swap.c push_swap_init.c sort_dispatch.c input.c input_args.c input_utils.c misc.c stack.c stack_ops.c \
 		  stack_rotate.c stack_rotate2.c sv.c \
@@ -23,8 +20,8 @@ OBJS		= $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(FT_PRINTF) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(FT_PRINTF) -o $(NAME)
+$(NAME): $(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
@@ -44,12 +41,10 @@ debug: fclean $(NAME)
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
-	$(MAKE) -C $(FT_PRINTF_DIR) clean
 	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	$(MAKE) -C $(FT_PRINTF_DIR) fclean
 	rm -f $(NAME)
 
 re: fclean all

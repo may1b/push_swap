@@ -19,7 +19,6 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include "libft/libft.h"
-# include "ft_printf.h"
 
 # define ERROR_OUT 2
 # define STAND_OUT 1
